@@ -31,6 +31,7 @@ import edu.byu.cs.tweeter.R;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetUserTask;
 import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.presenter.GetFollowersPresenter;
+import edu.byu.cs.tweeter.client.presenter.GetUserPresenter;
 import edu.byu.cs.tweeter.client.view.main.MainActivity;
 import edu.byu.cs.tweeter.model.domain.User;
 
@@ -110,10 +111,12 @@ public class FollowersFragment extends Fragment implements GetFollowersPresenter
     /**
      * The ViewHolder for the RecyclerView that displays the follower data.
      */
-    private class FollowersHolder extends RecyclerView.ViewHolder {
+    private class FollowersHolder extends RecyclerView.ViewHolder implements GetUserPresenter.View {
         private final ImageView userImage;
         private final TextView userAlias;
         private final TextView userName;
+
+        private GetUserPresenter userPresenter;
 
         /**
          * Creates an instance and sets an OnClickListener for the user's row.
@@ -126,16 +129,12 @@ public class FollowersFragment extends Fragment implements GetFollowersPresenter
             userImage = itemView.findViewById(R.id.userImage);
             userAlias = itemView.findViewById(R.id.userAlias);
             userName = itemView.findViewById(R.id.userName);
+            userPresenter = new GetUserPresenter(this);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // TODO: move this to a presenter
-                    GetUserTask getUserTask = new GetUserTask(Cache.getInstance().getCurrUserAuthToken(),
-                            userAlias.getText().toString(), new GetUserHandler());
-                    ExecutorService executor = Executors.newSingleThreadExecutor();
-                    executor.execute(getUserTask);
-                    Toast.makeText(getContext(), "Getting user's profile...", Toast.LENGTH_LONG).show();
+                    userPresenter.displayUser(userAlias.getText().toString());
                 }
             });
         }
@@ -153,32 +152,17 @@ public class FollowersFragment extends Fragment implements GetFollowersPresenter
             Picasso.get().load(user.getImageUrl()).into(userImage);
         }
 
-        /**
-         * Message handler (i.e., observer) for GetUserTask.
-         */
-        private class GetUserHandler extends Handler {
-            public GetUserHandler() {
-                super(Looper.getMainLooper());
-            }
+        @Override
+        public void displayMessage(String message) {
+            Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+        }
 
-            @Override
-            public void handleMessage(@NonNull Message msg) {
-                boolean success = msg.getData().getBoolean(GetUserTask.SUCCESS_KEY);
-                if (success) {
-                    User user = (User) msg.getData().getSerializable(GetUserTask.USER_KEY);
-
-                    Intent intent = new Intent(getContext(), MainActivity.class);
-                    intent.putExtra(MainActivity.CURRENT_USER_KEY, user);
-                    startActivity(intent);
-                } else if (msg.getData().containsKey(GetUserTask.MESSAGE_KEY)) {
-                    String message = msg.getData().getString(GetUserTask.MESSAGE_KEY);
-                    Toast.makeText(getContext(), "Failed to get user's profile: " + message, Toast.LENGTH_LONG).show();
-                } else if (msg.getData().containsKey(GetUserTask.EXCEPTION_KEY)) {
-                    Exception ex = (Exception) msg.getData().getSerializable(GetUserTask.EXCEPTION_KEY);
-                    Toast.makeText(getContext(), "Failed to get user's profile because of exception: " + ex.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }
-        } // TODO: move this to a presenter
+        @Override
+        public void displayUser(User user) {
+            Intent intent = new Intent(getContext(), MainActivity.class);
+            intent.putExtra(MainActivity.CURRENT_USER_KEY, user);
+            startActivity(intent);
+        }
     }
 
     /**
