@@ -141,7 +141,6 @@ public class StoryFragment extends Fragment implements GetStoryPresenter.View {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    System.out.println("Clicked on " + userAlias.getText().toString() + " in story");
                     userPresenter.displayUser(userAlias.getText().toString());
                 }
             });
