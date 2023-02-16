@@ -50,7 +50,7 @@ public abstract class PagedTask<T> extends AuthenticatedTask {
 
     @Override
     protected void loadSuccessBundle(Bundle msgBundle) {
-        msgBundle.putSerializable(ITEMS_KEY, (Serializable) getItems());
+        msgBundle.putSerializable(ITEMS_KEY, (Serializable) items);
         msgBundle.putBoolean(MORE_PAGES_KEY, hasMorePages);
     }
 }
