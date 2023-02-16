@@ -17,9 +17,9 @@ public class LogoutTask extends AuthenticatedTask {
         super(messageHandler, authToken);
     }
 
-    @Override
-    protected void loadSuccessBundle(Bundle msgBundle) {}
 
     @Override
-    protected void processTask() {}
+    protected void processTask() {
+
+    }
 }

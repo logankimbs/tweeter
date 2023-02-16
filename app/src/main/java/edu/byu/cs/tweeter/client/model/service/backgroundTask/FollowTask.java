@@ -17,7 +17,6 @@ public class FollowTask extends AuthenticatedTask {
     public FollowTask(AuthToken authToken, User followee, Handler messageHandler) {
         super(messageHandler, authToken);
         this.followee = followee;
-        this.messageHandler = messageHandler;
     }
 
     @Override

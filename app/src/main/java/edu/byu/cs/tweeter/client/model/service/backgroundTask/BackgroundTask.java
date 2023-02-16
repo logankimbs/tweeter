@@ -7,26 +7,28 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import java.io.IOException;
 import java.util.List;
 
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.util.FakeData;
 import edu.byu.cs.tweeter.util.Pair;
 
-// Parent class for all background tasks
 public abstract class BackgroundTask implements Runnable {
     private static final String LOG_TAG = "BackgroundTask";
+
     public static final String SUCCESS_KEY = "success";
     public static final String MESSAGE_KEY = "message";
     public static final String EXCEPTION_KEY = "exception";
 
-    protected Handler messageHandler;
+    private Handler messageHandler;
 
-    public BackgroundTask(Handler messageHandler) {
+    protected BackgroundTask(Handler messageHandler) {
         this.messageHandler = messageHandler;
     }
 
-    protected abstract void loadSuccessBundle(Bundle msgBundle);
+    // protected void loadSuccessBundle(Bundle msgBundle);
+    protected void loadSuccessBundle(Bundle msgBundle) {};
 
     protected FakeData getFakeData() {
         return FakeData.getInstance();
@@ -45,12 +47,11 @@ public abstract class BackgroundTask implements Runnable {
 
     protected abstract void processTask();
 
-    private void sendSuccessMessage() {
+    protected void sendSuccessMessage() {
         Bundle msgBundle = createBundle(true);
         loadSuccessBundle(msgBundle);
         sendMessage(msgBundle);
     }
-
 
     private void sendFailedMessage(String message) {
         Bundle msgBundle = createBundle(false);
