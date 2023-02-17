@@ -1,6 +1,8 @@
 package edu.byu.cs.tweeter.client.presenter;
 
+import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.RegisterService;
+import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class RegisterPresenter {
@@ -28,7 +30,10 @@ public class RegisterPresenter {
         }
 
         @Override
-        public void register(User user) {
+        public void register(User user, AuthToken authToken) {
+            Cache.getInstance().setCurrUser(user);
+            Cache.getInstance().setCurrUserAuthToken(authToken);
+
             view.register(user);
         }
     }

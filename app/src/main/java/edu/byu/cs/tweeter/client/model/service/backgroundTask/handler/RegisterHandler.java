@@ -23,17 +23,11 @@ public class RegisterHandler extends Handler {
     @Override
     public void handleMessage(@NonNull Message msg) {
         boolean success = msg.getData().getBoolean(RegisterTask.SUCCESS_KEY);
+
         if (success) {
             User registeredUser = (User) msg.getData().getSerializable(RegisterTask.USER_KEY);
             AuthToken authToken = (AuthToken) msg.getData().getSerializable(RegisterTask.AUTH_TOKEN_KEY);
-
-            // Cache user session information
-            Cache.getInstance().setCurrUser(registeredUser);
-            Cache.getInstance().setCurrUserAuthToken(authToken);
-
-            observer.displayMessage("Hello " + Cache.getInstance().getCurrUser().getName());
-            observer.register(registeredUser);
-
+            observer.register(registeredUser, authToken);
         } else if (msg.getData().containsKey(RegisterTask.MESSAGE_KEY)) {
             String message = msg.getData().getString(RegisterTask.MESSAGE_KEY);
             observer.displayMessage("Failed to register: " + message);
