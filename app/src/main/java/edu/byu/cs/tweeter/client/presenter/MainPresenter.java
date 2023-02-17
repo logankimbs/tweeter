@@ -93,5 +93,15 @@ public class MainPresenter {
             updateSelectedUserFollowingAndFollowers();
             updateFollowButton(false);
         }
+
+        @Override
+        public void handleFailure(String message) {
+            displayMessage(message);
+        }
+
+        @Override
+        public void handleException(Exception ex) {
+            displayMessage(ex.getMessage());
+        }
     }
 }

@@ -44,6 +44,9 @@ public class MainService {
         void followeeCount(int count);
         void handleUnfollow();
         void handleFollow();
+
+        void handleFailure(String message);
+        void handleException(Exception ex);
     }
 
     public void isFollower(User selectedUser, Observer observer) {
