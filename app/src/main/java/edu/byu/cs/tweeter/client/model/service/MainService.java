@@ -134,19 +134,50 @@ public class MainService {
         void handleException(Exception ex);
     }
 
-    public void getCounts(User selectedUser, Observer observer) {
-        ExecutorService executor = Executors.newFixedThreadPool(2);
-
-        // Get count of most recently selected user's followers.
+    public void getFollowersCount(User selectedUser, GetFollowersCountObserver observer) {
         GetFollowersCountTask followersCountTask = new GetFollowersCountTask(Cache.getInstance().getCurrUserAuthToken(),
                 selectedUser, new GetFollowersCountHandler(observer));
+        ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(followersCountTask);
+    }
 
-        // Get count of most recently selected user's followees (who they are following)
+
+
+
+
+    public interface GetFollowingCountObserver extends ServiceObserver {
+        void handleSuccess(int count);
+        void handleFailure(String message);
+        void handleException(Exception ex);
+    }
+
+    public void getFollowingCount(User selectedUser, GetFollowingCountObserver observer) {
         GetFollowingCountTask followingCountTask = new GetFollowingCountTask(Cache.getInstance().getCurrUserAuthToken(),
                 selectedUser, new GetFollowingCountHandler(observer));
+        ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(followingCountTask);
     }
+
+
+
+
+
+
+
+
+//    public void getCounts(User selectedUser, Observer observer) {
+//        ExecutorService executor = Executors.newFixedThreadPool(2);
+//
+//        // Get count of most recently selected user's followers.
+//        GetFollowersCountTask followersCountTask = new GetFollowersCountTask(Cache.getInstance().getCurrUserAuthToken(),
+//                selectedUser, new GetFollowersCountHandler(observer));
+//        executor.execute(followersCountTask);
+//
+//        // Get count of most recently selected user's followees (who they are following)
+//        GetFollowingCountTask followingCountTask = new GetFollowingCountTask(Cache.getInstance().getCurrUserAuthToken(),
+//                selectedUser, new GetFollowingCountHandler(observer));
+//        executor.execute(followingCountTask);
+//    }
 
 
 

@@ -17,6 +17,6 @@ public class GetFollowingCountTask extends CountTask {
 
     @Override
     protected int runCountTask() {
-        return 500;
+        return 20;
     }
 }

@@ -10,9 +10,9 @@ import edu.byu.cs.tweeter.client.model.service.MainService;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowingCountTask;
 
 public class GetFollowingCountHandler extends Handler {
-    private MainService.Observer observer;
+    private MainService.GetFollowingCountObserver observer;
 
-    public GetFollowingCountHandler(MainService.Observer observer) {
+    public GetFollowingCountHandler(MainService.GetFollowingCountObserver observer) {
         super(Looper.getMainLooper());
         this.observer = observer;
     }
@@ -23,13 +23,13 @@ public class GetFollowingCountHandler extends Handler {
 
         if (success) {
             int count = msg.getData().getInt(GetFollowingCountTask.COUNT_KEY);
-            observer.followeeCount(count);
+            observer.handleSuccess(count);
         } else if (msg.getData().containsKey(GetFollowingCountTask.MESSAGE_KEY)) {
             String message = msg.getData().getString(GetFollowingCountTask.MESSAGE_KEY);
-            observer.displayMessage("Failed to get following count: " + message);
+            observer.handleFailure(message);
         } else if (msg.getData().containsKey(GetFollowingCountTask.EXCEPTION_KEY)) {
             Exception ex = (Exception) msg.getData().getSerializable(GetFollowingCountTask.EXCEPTION_KEY);
-            observer.displayMessage("Failed to get following count because of exception: " + ex.getMessage());
+            observer.handleException(ex);
         }
     }
 }

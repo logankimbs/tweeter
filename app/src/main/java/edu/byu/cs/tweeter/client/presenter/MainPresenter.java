@@ -12,6 +12,62 @@ public class MainPresenter {
         mainService = new MainService();
     }
 
+
+
+
+
+
+
+    public void getFollowingCount(User selectedUser) {
+        mainService.getFollowingCount(selectedUser, new GetFollowingCountObserver());
+    }
+
+    private class GetFollowingCountObserver implements MainService.GetFollowingCountObserver {
+        @Override
+        public void handleSuccess(int count) {
+            view.followeeCount(count);
+        }
+
+        @Override
+        public void handleFailure(String message) {
+            view.displayMessage(message);
+        }
+
+        @Override
+        public void handleException(Exception ex) {
+            view.displayMessage(ex.getMessage());
+        }
+    }
+
+
+
+
+
+    public void getFollowersCount(User selectedUser) {
+        mainService.getFollowersCount(selectedUser, new GetFollowersCountObserver());
+    }
+
+    private class GetFollowersCountObserver implements MainService.GetFollowersCountObserver {
+        @Override
+        public void handleSuccess(int count) {
+            view.followerCount(count);
+        }
+
+        @Override
+        public void handleFailure(String message) {
+            view.displayMessage(message);
+        }
+
+        @Override
+        public void handleException(Exception ex) {
+            view.displayMessage(ex.getMessage());
+        }
+    }
+
+
+
+
+
     public interface View {
         void displayMessage(String message);
         void isFollower(boolean isFollower);
@@ -114,9 +170,9 @@ public class MainPresenter {
         mainService.postStatus(status, new MainServiceObserver());
     }
 
-    public void getCounts(User selectedUser) {
-        mainService.getCounts(selectedUser, new MainServiceObserver());
-    }
+//    public void getCounts(User selectedUser) {
+//        mainService.getCounts(selectedUser, new MainServiceObserver());
+//    }
 
     private class MainServiceObserver implements MainService.Observer {
         @Override
