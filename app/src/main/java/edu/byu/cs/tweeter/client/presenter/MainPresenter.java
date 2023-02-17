@@ -39,7 +39,6 @@ public class MainPresenter {
         public void handleSuccess() {
             view.updateSelectedUserFollowingAndFollowers();
             view.updateFollowButton(true);
-            System.out.println("unfollowed");
         }
 
         @Override
@@ -66,7 +65,6 @@ public class MainPresenter {
         public void handleSuccess() {
             view.updateSelectedUserFollowingAndFollowers();
             view.updateFollowButton(false);
-            System.out.println("followed");
         }
 
         @Override
