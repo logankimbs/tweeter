@@ -23,10 +23,11 @@ public class LoginHandler extends Handler {
     @Override
     public void handleMessage(@NonNull Message msg) {
         boolean success = msg.getData().getBoolean(LoginTask.SUCCESS_KEY);
+
         if (success) {
             User loggedInUser = (User) msg.getData().getSerializable(LoginTask.USER_KEY);
             AuthToken authToken = (AuthToken) msg.getData().getSerializable(LoginTask.AUTH_TOKEN_KEY);
-            observer.handleSuccess(loggedInUser, authToken);
+            observer.handleLogin(loggedInUser, authToken);
         } else if (msg.getData().containsKey(LoginTask.MESSAGE_KEY)) {
             String message = msg.getData().getString(LoginTask.MESSAGE_KEY);
             observer.displayMessage("Failed to login: " + message);
