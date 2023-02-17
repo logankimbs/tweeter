@@ -2,6 +2,7 @@ package edu.byu.cs.tweeter.client.presenter;
 
 import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.RegisterService;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.AuthObserver;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 
@@ -23,18 +24,23 @@ public class RegisterPresenter {
         registerService.register(firstName, lastName, alias, password, imageBytesBase64, new RegisterServiceObserver());
     }
 
-    private class RegisterServiceObserver implements RegisterService.Observer {
+    private class RegisterServiceObserver implements AuthObserver {
         @Override
-        public void displayMessage(String message) {
-            view.displayMessage(message);
-        }
-
-        @Override
-        public void register(User user, AuthToken authToken) {
+        public void handleSuccess(User user, AuthToken authToken) {
             Cache.getInstance().setCurrUser(user);
             Cache.getInstance().setCurrUserAuthToken(authToken);
 
             view.register(user);
+        }
+
+        @Override
+        public void handleFailure(String message) {
+            view.displayMessage(message);
+        }
+
+        @Override
+        public void handleException(Exception ex) {
+            view.displayMessage(ex.getMessage());
         }
     }
 }

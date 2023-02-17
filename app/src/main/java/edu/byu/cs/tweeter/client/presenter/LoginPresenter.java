@@ -1,7 +1,10 @@
 package edu.byu.cs.tweeter.client.presenter;
 
+import android.os.Looper;
+
 import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.LoginService;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.AuthObserver;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 
@@ -23,12 +26,7 @@ public class LoginPresenter {
         loginService.login(alias, password, new LoginServiceObserver());
     }
 
-    private class LoginServiceObserver implements LoginService.Observer {
-        @Override
-        public void displayMessage(String message) {
-            view.displayMessage(message);
-        }
-
+    private class LoginServiceObserver implements LoginService.LoginObserver {
         @Override
         public void handleSuccess(User user, AuthToken authToken) {
             Cache.getInstance().setCurrUser(user);
@@ -37,8 +35,13 @@ public class LoginPresenter {
         }
 
         @Override
-        public void login(User user) {
-            view.login(user);
+        public void handleFailure(String message) {
+            view.displayMessage(message);
+        }
+
+        @Override
+        public void handleException(Exception ex) {
+            view.displayMessage(ex.getMessage());
         }
     }
 }
