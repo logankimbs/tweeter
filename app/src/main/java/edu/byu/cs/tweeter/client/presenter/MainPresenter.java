@@ -1,6 +1,7 @@
 package edu.byu.cs.tweeter.client.presenter;
 
 import edu.byu.cs.tweeter.client.model.service.MainService;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.BooleanObserver;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class MainPresenter {
@@ -79,7 +80,24 @@ public class MainPresenter {
     }
 
     public void isFollower(User selectedUser) {
-        mainService.isFollower(selectedUser, new MainServiceObserver());
+        mainService.isFollower(selectedUser, new IsFollowerObserver());
+    }
+
+    private class IsFollowerObserver implements BooleanObserver {
+        @Override
+        public void handleSuccess(boolean isFollower) {
+            view.updateFollowButton(isFollower);
+        }
+
+        @Override
+        public void handleFailure(String message) {
+            view.displayMessage(message);
+        }
+
+        @Override
+        public void handleException(Exception ex) {
+            view.displayMessage(ex.getMessage());
+        }
     }
 
 

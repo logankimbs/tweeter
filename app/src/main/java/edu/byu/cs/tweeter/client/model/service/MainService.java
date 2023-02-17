@@ -19,10 +19,11 @@ import edu.byu.cs.tweeter.client.model.service.backgroundTask.IsFollowerTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.LogoutTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.PostStatusTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.UnfollowTask;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.BooleanHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.CountHandler;
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.IsFollowerHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.PostStatusHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.SimpleNotificationHandler;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.BooleanObserver;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.CountObserver;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.ServiceObserver;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.SimpleNotificationObserver;
@@ -44,7 +45,6 @@ public class MainService {
 
 
 
-
     public interface FollowObserver extends SimpleNotificationObserver {
         void handleSuccess();
         void handleFailure(String message);
@@ -60,7 +60,6 @@ public class MainService {
 
 
 
-
     public interface UnfollowObserver extends SimpleNotificationObserver {
         void handleSuccess();
         void handleFailure(String message);
@@ -68,13 +67,11 @@ public class MainService {
     }
 
     public void unfollow(User selectedUser, UnfollowObserver observer) {
-        System.out.println("Unfollow");
         UnfollowTask unfollowTask = new UnfollowTask(Cache.getInstance().getCurrUserAuthToken(),
                 selectedUser, new SimpleNotificationHandler(Looper.getMainLooper(), observer));
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(unfollowTask);
     }
-
 
 
 
@@ -84,13 +81,12 @@ public class MainService {
         void handleException(Exception ex);
     }
 
-    public void isFollower(User selectedUser, Observer observer) {
+    public void isFollower(User selectedUser, BooleanObserver observer) {
         IsFollowerTask isFollowerTask = new IsFollowerTask(Cache.getInstance().getCurrUserAuthToken(),
-                Cache.getInstance().getCurrUser(), selectedUser, new IsFollowerHandler(observer));
+                Cache.getInstance().getCurrUser(), selectedUser, new BooleanHandler(Looper.getMainLooper(), observer));
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(isFollowerTask);
     }
-
 
 
 
@@ -105,8 +101,6 @@ public class MainService {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(logoutTask);
     }
-
-
 
 
 
@@ -126,7 +120,6 @@ public class MainService {
 
 
 
-
     public interface GetFollowersCountObserver extends CountObserver {
         void handleSuccess(int count);
         void handleFailure(String message);
@@ -142,8 +135,6 @@ public class MainService {
 
 
 
-
-
     public interface GetFollowingCountObserver extends CountObserver {
         void handleSuccess(int count);
         void handleFailure(String message);
@@ -156,29 +147,6 @@ public class MainService {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(followingCountTask);
     }
-
-
-
-
-
-
-
-
-//    public void getCounts(User selectedUser, Observer observer) {
-//        ExecutorService executor = Executors.newFixedThreadPool(2);
-//
-//        // Get count of most recently selected user's followers.
-//        GetFollowersCountTask followersCountTask = new GetFollowersCountTask(Cache.getInstance().getCurrUserAuthToken(),
-//                selectedUser, new GetFollowersCountHandler(observer));
-//        executor.execute(followersCountTask);
-//
-//        // Get count of most recently selected user's followees (who they are following)
-//        GetFollowingCountTask followingCountTask = new GetFollowingCountTask(Cache.getInstance().getCurrUserAuthToken(),
-//                selectedUser, new GetFollowingCountHandler(observer));
-//        executor.execute(followingCountTask);
-//    }
-
-
 
 
 
