@@ -8,8 +8,6 @@ import java.util.concurrent.Executors;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.LoginTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.AuthHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.AuthObserver;
-import edu.byu.cs.tweeter.model.domain.AuthToken;
-import edu.byu.cs.tweeter.model.domain.User;
 
 public class LoginService {
     public void login(String alias, String password, AuthObserver observer) {
