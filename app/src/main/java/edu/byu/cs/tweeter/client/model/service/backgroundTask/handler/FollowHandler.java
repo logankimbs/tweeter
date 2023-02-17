@@ -22,8 +22,7 @@ public class FollowHandler extends Handler {
         boolean success = msg.getData().getBoolean(FollowTask.SUCCESS_KEY);
 
         if (success) {
-            observer.updateSelectedUserFollowingAndFollowers();
-            observer.updateFollowButton(false);
+            observer.handleFollow();
         } else if (msg.getData().containsKey(FollowTask.MESSAGE_KEY)) {
             String message = msg.getData().getString(FollowTask.MESSAGE_KEY);
             observer.displayMessage("Failed to follow: " + message);

@@ -27,7 +27,6 @@ public class GetStoryHandler extends Handler {
         if (success) {
             List<Status> statuses = (List<Status>) msg.getData().getSerializable(GetStoryTask.ITEMS_KEY);
             boolean hasMorePages = msg.getData().getBoolean(GetStoryTask.MORE_PAGES_KEY);
-            Status lastStatus = (statuses.size() > 0) ? statuses.get(statuses.size() - 1) : null;
             observer.addStatuses(statuses, hasMorePages);
         } else if (msg.getData().containsKey(GetStoryTask.MESSAGE_KEY)) {
             String message = msg.getData().getString(GetStoryTask.MESSAGE_KEY);

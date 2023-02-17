@@ -83,9 +83,15 @@ public class MainPresenter {
         }
 
         @Override
-        public void handleSuccess() {
+        public void handleUnfollow() {
             updateSelectedUserFollowingAndFollowers();
             updateFollowButton(true);
+        }
+
+        @Override
+        public void handleFollow() {
+            updateSelectedUserFollowingAndFollowers();
+            updateFollowButton(false);
         }
     }
 }

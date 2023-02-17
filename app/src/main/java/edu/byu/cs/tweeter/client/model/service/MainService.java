@@ -42,7 +42,8 @@ public class MainService {
         void logout();
         void followerCount(int count);
         void followeeCount(int count);
-        void handleSuccess();
+        void handleUnfollow();
+        void handleFollow();
     }
 
     public void isFollower(User selectedUser, Observer observer) {

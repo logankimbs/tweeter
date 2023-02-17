@@ -22,7 +22,7 @@ public class UnfollowHandler extends Handler {
         boolean success = msg.getData().getBoolean(UnfollowTask.SUCCESS_KEY);
 
         if (success) {
-            observer.handleSuccess();
+            observer.handleUnfollow();
 //            observer.updateSelectedUserFollowingAndFollowers();
 //            observer.updateFollowButton(true);
         } else if (msg.getData().containsKey(UnfollowTask.MESSAGE_KEY)) {
