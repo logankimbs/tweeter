@@ -30,7 +30,7 @@ public class LoginPresenter {
         }
 
         @Override
-        public void handleLogin(User user, AuthToken authToken) {
+        public void handleSuccess(User user, AuthToken authToken) {
             Cache.getInstance().setCurrUser(user);
             Cache.getInstance().setCurrUserAuthToken(authToken);
             view.login(user);

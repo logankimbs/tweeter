@@ -11,7 +11,7 @@ import edu.byu.cs.tweeter.model.domain.User;
 public class LoginService {
     public interface Observer {
         void displayMessage(String message);
-        void handleLogin(User user, AuthToken authToken);
+        void handleSuccess(User user, AuthToken authToken);
         void login(User user);
     }
 
