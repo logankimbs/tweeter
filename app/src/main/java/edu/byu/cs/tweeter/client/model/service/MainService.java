@@ -99,7 +99,7 @@ public class MainService {
         void handleException(Exception ex);
     }
 
-    public void logout(Observer observer) {
+    public void logout(LogoutObserver observer) {
         LogoutTask logoutTask = new LogoutTask(Cache.getInstance().getCurrUserAuthToken(), new LogoutHandler(observer));
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(logoutTask);

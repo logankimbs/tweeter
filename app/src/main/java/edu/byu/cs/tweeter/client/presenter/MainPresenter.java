@@ -79,9 +79,36 @@ public class MainPresenter {
     }
 
 
+
+
+
+
     public void logout() {
-        mainService.logout(new MainServiceObserver());
+        mainService.logout(new LogoutServiceObserver());
     }
+
+    private class LogoutServiceObserver implements MainService.LogoutObserver {
+        @Override
+        public void handleSuccess() {
+            view.logout();
+        }
+
+        @Override
+        public void handleFailure(String message) {
+            view.displayMessage(message);
+        }
+
+        @Override
+        public void handleException(Exception ex) {
+            view.displayMessage(ex.getMessage());
+        }
+    }
+
+
+
+
+
+
 
     public void postStatus(String status) {
         mainService.postStatus(status, new MainServiceObserver());
