@@ -1,5 +1,6 @@
 package edu.byu.cs.tweeter.client.model.service.backgroundTask.handler;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -8,28 +9,16 @@ import androidx.annotation.NonNull;
 
 import edu.byu.cs.tweeter.client.model.service.MainService;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFollowersCountTask;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.ServiceObserver;
 
-public class GetFollowersCountHandler extends Handler {
-    private MainService.GetFollowersCountObserver observer;
-
+public class GetFollowersCountHandler extends BackgroundTaskHandler {
     public GetFollowersCountHandler(MainService.GetFollowersCountObserver observer) {
-        super(Looper.getMainLooper());
-        this.observer = observer;
+        super(Looper.getMainLooper(), observer);
     }
 
     @Override
-    public void handleMessage(@NonNull Message msg) {
-        boolean success = msg.getData().getBoolean(GetFollowersCountTask.SUCCESS_KEY);
-
-        if (success) {
-            int count = msg.getData().getInt(GetFollowersCountTask.COUNT_KEY);
-            observer.handleSuccess(count);
-        } else if (msg.getData().containsKey(GetFollowersCountTask.MESSAGE_KEY)) {
-            String message = msg.getData().getString(GetFollowersCountTask.MESSAGE_KEY);
-            observer.handleFailure(message);
-        } else if (msg.getData().containsKey(GetFollowersCountTask.EXCEPTION_KEY)) {
-            Exception ex = (Exception) msg.getData().getSerializable(GetFollowersCountTask.EXCEPTION_KEY);
-            observer.handleException(ex);
-        }
+    protected void handleSuccess(Bundle data, ServiceObserver observer) {
+        int count = data.getInt(GetFollowersCountTask.COUNT_KEY);
+        ((MainService.GetFollowersCountObserver) observer).handleSuccess(count);
     }
 }

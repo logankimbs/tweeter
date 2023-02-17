@@ -19,12 +19,14 @@ import edu.byu.cs.tweeter.client.model.service.backgroundTask.IsFollowerTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.LogoutTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.PostStatusTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.UnfollowTask;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.CountHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.GetFollowersCountHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.GetFollowingCountHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.IsFollowerHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.LogoutHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.PostStatusHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.SimpleNotificationHandler;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.CountObserver;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.ServiceObserver;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.SimpleNotificationObserver;
 import edu.byu.cs.tweeter.model.domain.Status;
@@ -128,7 +130,7 @@ public class MainService {
 
 
 
-    public interface GetFollowersCountObserver extends ServiceObserver {
+    public interface GetFollowersCountObserver extends CountObserver {
         void handleSuccess(int count);
         void handleFailure(String message);
         void handleException(Exception ex);
@@ -136,7 +138,7 @@ public class MainService {
 
     public void getFollowersCount(User selectedUser, GetFollowersCountObserver observer) {
         GetFollowersCountTask followersCountTask = new GetFollowersCountTask(Cache.getInstance().getCurrUserAuthToken(),
-                selectedUser, new GetFollowersCountHandler(observer));
+                selectedUser, new CountHandler(Looper.getMainLooper(), observer));
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(followersCountTask);
     }
@@ -145,7 +147,7 @@ public class MainService {
 
 
 
-    public interface GetFollowingCountObserver extends ServiceObserver {
+    public interface GetFollowingCountObserver extends CountObserver {
         void handleSuccess(int count);
         void handleFailure(String message);
         void handleException(Exception ex);
@@ -153,7 +155,7 @@ public class MainService {
 
     public void getFollowingCount(User selectedUser, GetFollowingCountObserver observer) {
         GetFollowingCountTask followingCountTask = new GetFollowingCountTask(Cache.getInstance().getCurrUserAuthToken(),
-                selectedUser, new GetFollowingCountHandler(observer));
+                selectedUser, new CountHandler(Looper.getMainLooper(), observer));
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(followingCountTask);
     }
