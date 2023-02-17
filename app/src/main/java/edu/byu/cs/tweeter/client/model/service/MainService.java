@@ -21,7 +21,6 @@ import edu.byu.cs.tweeter.client.model.service.backgroundTask.PostStatusTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.UnfollowTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.CountHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.IsFollowerHandler;
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.LogoutHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.PostStatusHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.SimpleNotificationHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.CountObserver;
@@ -101,8 +100,8 @@ public class MainService {
         void handleException(Exception ex);
     }
 
-    public void logout(LogoutObserver observer) {
-        LogoutTask logoutTask = new LogoutTask(Cache.getInstance().getCurrUserAuthToken(), new LogoutHandler(observer));
+    public void logout(SimpleNotificationObserver observer) {
+        LogoutTask logoutTask = new LogoutTask(Cache.getInstance().getCurrUserAuthToken(), new SimpleNotificationHandler(Looper.getMainLooper(), observer));
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(logoutTask);
     }

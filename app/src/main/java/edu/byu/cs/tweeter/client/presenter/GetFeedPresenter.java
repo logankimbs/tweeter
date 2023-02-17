@@ -3,6 +3,7 @@ package edu.byu.cs.tweeter.client.presenter;
 import java.util.List;
 
 import edu.byu.cs.tweeter.client.model.service.StatusService;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.PagedObserver;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 
@@ -46,21 +47,28 @@ public class GetFeedPresenter {
         return isLoading;
     }
 
-    private class GetFeedObserver implements StatusService.Observer {
+    private class GetFeedObserver implements PagedObserver<Status> {
         @Override
-        public void displayMessage(String message) {
+        public void handleSuccess(List<Status> items, boolean hasMorePages) {
+            isLoading = false;
+            view.setLoadingFooter(false);
+            lastStatus = (items.size() > 0) ? items.get(items.size() - 1) : null;
+            setHasMorePages(hasMorePages);
+            view.addMoreItems(items);
+        }
+
+        @Override
+        public void handleFailure(String message) {
             isLoading = false;
             view.setLoadingFooter(false);
             view.displayMessage(message);
         }
 
         @Override
-        public void addStatuses(List<Status> statuses, boolean hasMorePages) {
+        public void handleException(Exception ex) {
             isLoading = false;
             view.setLoadingFooter(false);
-            lastStatus = (statuses.size() > 0) ? statuses.get(statuses.size() - 1) : null;
-            setHasMorePages(hasMorePages);
-            view.addMoreItems(statuses);
+            view.displayMessage(ex.getMessage());
         }
     }
 }
