@@ -1,6 +1,8 @@
 package edu.byu.cs.tweeter.client.presenter;
 
+import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.LoginService;
+import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class LoginPresenter {
@@ -25,6 +27,13 @@ public class LoginPresenter {
         @Override
         public void displayMessage(String message) {
             view.displayMessage(message);
+        }
+
+        @Override
+        public void handleSuccess(User user, AuthToken authToken) {
+            Cache.getInstance().setCurrUser(user);
+            Cache.getInstance().setCurrUserAuthToken(authToken);
+            view.login(user);
         }
 
         @Override

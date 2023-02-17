@@ -26,13 +26,7 @@ public class LoginHandler extends Handler {
         if (success) {
             User loggedInUser = (User) msg.getData().getSerializable(LoginTask.USER_KEY);
             AuthToken authToken = (AuthToken) msg.getData().getSerializable(LoginTask.AUTH_TOKEN_KEY);
-
-            // Cache user session information
-            Cache.getInstance().setCurrUser(loggedInUser);
-            Cache.getInstance().setCurrUserAuthToken(authToken);
-
-            observer.displayMessage("Hello " + Cache.getInstance().getCurrUser().getName());
-            observer.login(loggedInUser);
+            observer.handleSuccess(loggedInUser, authToken);
         } else if (msg.getData().containsKey(LoginTask.MESSAGE_KEY)) {
             String message = msg.getData().getString(LoginTask.MESSAGE_KEY);
             observer.displayMessage("Failed to login: " + message);

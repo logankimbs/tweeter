@@ -42,6 +42,7 @@ public class MainService {
         void logout();
         void followerCount(int count);
         void followeeCount(int count);
+        void handleSuccess();
     }
 
     public void isFollower(User selectedUser, Observer observer) {

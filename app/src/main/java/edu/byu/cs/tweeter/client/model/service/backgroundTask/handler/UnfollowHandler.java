@@ -22,8 +22,9 @@ public class UnfollowHandler extends Handler {
         boolean success = msg.getData().getBoolean(UnfollowTask.SUCCESS_KEY);
 
         if (success) {
-            observer.updateSelectedUserFollowingAndFollowers();
-            observer.updateFollowButton(true);
+            observer.handleSuccess();
+//            observer.updateSelectedUserFollowingAndFollowers();
+//            observer.updateFollowButton(true);
         } else if (msg.getData().containsKey(UnfollowTask.MESSAGE_KEY)) {
             String message = msg.getData().getString(UnfollowTask.MESSAGE_KEY);
             observer.displayMessage("Failed to unfollow: " + message);

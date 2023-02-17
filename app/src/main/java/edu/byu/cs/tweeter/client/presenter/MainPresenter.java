@@ -81,5 +81,11 @@ public class MainPresenter {
         public void followeeCount(int count) {
             view.followeeCount(count);
         }
+
+        @Override
+        public void handleSuccess() {
+            updateSelectedUserFollowingAndFollowers();
+            updateFollowButton(true);
+        }
     }
 }

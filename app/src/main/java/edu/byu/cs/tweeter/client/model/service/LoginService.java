@@ -5,11 +5,13 @@ import java.util.concurrent.Executors;
 
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.LoginTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.LoginHandler;
+import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class LoginService {
     public interface Observer {
         void displayMessage(String message);
+        void handleSuccess(User user, AuthToken authToken);
         void login(User user);
     }
 
