@@ -26,13 +26,71 @@ public class MainPresenter {
         mainService.isFollower(selectedUser, new MainServiceObserver());
     }
 
+
+
+
+
     public void unfollow(User selectedUser) {
-        mainService.unfollow(selectedUser, new MainServiceObserver());
+        mainService.unfollow(selectedUser, new UnfollowServiceObserver());
     }
 
-    public void follow(User selectedUser) {
-        mainService.follow(selectedUser, new MainServiceObserver());
+    private class UnfollowServiceObserver implements MainService.UnfollowObserver {
+        @Override
+        public void handleSuccess() {
+            view.updateSelectedUserFollowingAndFollowers();
+            view.updateFollowButton(true);
+            System.out.println("unfollowed");
+        }
+
+        @Override
+        public void handleFailure(String message) {
+            view.displayMessage(message);
+        }
+
+        @Override
+        public void handleException(Exception ex) {
+            view.displayMessage(ex.getMessage());
+        }
     }
+
+
+
+
+
+    public void follow(User selectedUser) {
+        mainService.follow(selectedUser, new FollowServiceObserver());
+    }
+
+    private class FollowServiceObserver implements MainService.FollowObserver {
+        @Override
+        public void handleSuccess() {
+            view.updateSelectedUserFollowingAndFollowers();
+            view.updateFollowButton(false);
+            System.out.println("followed");
+        }
+
+        @Override
+        public void handleFailure(String message) {
+            view.displayMessage(message);
+        }
+
+        @Override
+        public void handleException(Exception ex) {
+            view.displayMessage(ex.getMessage());
+        }
+    }
+
+
+    private void handleUnfollow() {
+        view.updateSelectedUserFollowingAndFollowers();
+        view.updateFollowButton(true);
+    }
+
+    private void handleFollow() {
+        view.updateSelectedUserFollowingAndFollowers();
+        view.updateFollowButton(false);
+    }
+
 
     public void logout() {
         mainService.logout(new MainServiceObserver());
@@ -92,16 +150,6 @@ public class MainPresenter {
         public void handleFollow() {
             updateSelectedUserFollowingAndFollowers();
             updateFollowButton(false);
-        }
-
-        @Override
-        public void handleFailure(String message) {
-            displayMessage(message);
-        }
-
-        @Override
-        public void handleException(Exception ex) {
-            displayMessage(ex.getMessage());
         }
     }
 }

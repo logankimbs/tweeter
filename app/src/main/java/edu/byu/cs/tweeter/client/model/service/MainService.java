@@ -1,11 +1,5 @@
 package edu.byu.cs.tweeter.client.model.service;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-
-import androidx.annotation.NonNull;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -30,6 +24,8 @@ import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.IsFollower
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.LogoutHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.PostStatusHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.UnfollowHandler;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.ServiceObserver;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.SimpleNotificationObserver;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 
@@ -44,7 +40,30 @@ public class MainService {
         void followeeCount(int count);
         void handleUnfollow();
         void handleFollow();
+    }
 
+
+
+
+    public interface FollowObserver extends SimpleNotificationObserver {
+        void handleSuccess();
+        void handleFailure(String message);
+        void handleException(Exception ex);
+    }
+
+    public void follow(User selectedUser, FollowObserver observer) {
+        FollowTask followTask = new FollowTask(Cache.getInstance().getCurrUserAuthToken(),
+                selectedUser, new FollowHandler(observer));
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(followTask);
+    }
+
+
+
+
+
+    public interface IsFollowerObserver extends ServiceObserver {
+        void handleSuccess(boolean isFollower);
         void handleFailure(String message);
         void handleException(Exception ex);
     }
@@ -56,18 +75,30 @@ public class MainService {
         executor.execute(isFollowerTask);
     }
 
-    public void unfollow(User selectedUser, Observer observer) {
+
+
+
+
+    public interface UnfollowObserver extends SimpleNotificationObserver {
+        void handleSuccess();
+        void handleFailure(String message);
+        void handleException(Exception ex);
+    }
+
+    public void unfollow(User selectedUser, UnfollowObserver observer) {
         UnfollowTask unfollowTask = new UnfollowTask(Cache.getInstance().getCurrUserAuthToken(),
                 selectedUser, new UnfollowHandler(observer));
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(unfollowTask);
     }
 
-    public void follow(User selectedUser, Observer observer) {
-        FollowTask followTask = new FollowTask(Cache.getInstance().getCurrUserAuthToken(),
-                selectedUser, new FollowHandler(observer));
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(followTask);
+
+
+
+    public interface LogoutObserver extends SimpleNotificationObserver {
+        void handleSuccess();
+        void handleFailure(String message);
+        void handleException(Exception ex);
     }
 
     public void logout(Observer observer) {
@@ -76,12 +107,31 @@ public class MainService {
         executor.execute(logoutTask);
     }
 
+
+
+
+
+    public interface PostStatusObserver extends ServiceObserver {
+        void handleSuccess();
+        void handleFailure(String message);
+        void handleException(Exception ex);
+    }
+
     public void postStatus(String post, Observer observer) {
         Status newStatus = new Status(post, Cache.getInstance().getCurrUser(), System.currentTimeMillis(), parseURLs(post), parseMentions(post));
         PostStatusTask statusTask = new PostStatusTask(Cache.getInstance().getCurrUserAuthToken(),
                 newStatus, new PostStatusHandler(observer));
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(statusTask);
+    }
+
+
+
+
+    public interface GetFollowersCountObserver extends ServiceObserver {
+        void handleSuccess(int count);
+        void handleFailure(String message);
+        void handleException(Exception ex);
     }
 
     public void getCounts(User selectedUser, Observer observer) {
@@ -97,6 +147,10 @@ public class MainService {
                 selectedUser, new GetFollowingCountHandler(observer));
         executor.execute(followingCountTask);
     }
+
+
+
+
 
     private String getFormattedDateTime() throws ParseException {
         SimpleDateFormat userFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
