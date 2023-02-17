@@ -22,11 +22,11 @@ import edu.byu.cs.tweeter.client.model.service.backgroundTask.UnfollowTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.BooleanHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.CountHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.PostStatusHandler;
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.SimpleNotificationHandler;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.SimpleHandler;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.BooleanObserver;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.CountObserver;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.ServiceObserver;
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.SimpleNotificationObserver;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.SimpleObserver;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 
@@ -51,16 +51,16 @@ public class MainService {
     }
     ////////////////////////
 
-    public void follow(User selectedUser, SimpleNotificationObserver observer) {
+    public void follow(User selectedUser, SimpleObserver observer) {
         FollowTask followTask = new FollowTask(Cache.getInstance().getCurrUserAuthToken(),
-                selectedUser, new SimpleNotificationHandler(Looper.getMainLooper(), observer));
+                selectedUser, new SimpleHandler(Looper.getMainLooper(), observer));
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(followTask);
     }
 
-    public void unfollow(User selectedUser, SimpleNotificationObserver observer) {
+    public void unfollow(User selectedUser, SimpleObserver observer) {
         UnfollowTask unfollowTask = new UnfollowTask(Cache.getInstance().getCurrUserAuthToken(),
-                selectedUser, new SimpleNotificationHandler(Looper.getMainLooper(), observer));
+                selectedUser, new SimpleHandler(Looper.getMainLooper(), observer));
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(unfollowTask);
     }
@@ -72,8 +72,8 @@ public class MainService {
         executor.execute(isFollowerTask);
     }
 
-    public void logout(SimpleNotificationObserver observer) {
-        LogoutTask logoutTask = new LogoutTask(Cache.getInstance().getCurrUserAuthToken(), new SimpleNotificationHandler(Looper.getMainLooper(), observer));
+    public void logout(SimpleObserver observer) {
+        LogoutTask logoutTask = new LogoutTask(Cache.getInstance().getCurrUserAuthToken(), new SimpleHandler(Looper.getMainLooper(), observer));
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(logoutTask);
     }

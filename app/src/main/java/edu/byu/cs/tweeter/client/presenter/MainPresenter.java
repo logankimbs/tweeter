@@ -3,7 +3,7 @@ package edu.byu.cs.tweeter.client.presenter;
 import edu.byu.cs.tweeter.client.model.service.MainService;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.BooleanObserver;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.CountObserver;
-import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.SimpleNotificationObserver;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.SimpleObserver;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class MainPresenter {
@@ -100,7 +100,7 @@ public class MainPresenter {
         mainService.unfollow(selectedUser, new UnfollowServiceObserver());
     }
 
-    private class UnfollowServiceObserver implements SimpleNotificationObserver {
+    private class UnfollowServiceObserver implements SimpleObserver {
         @Override
         public void handleSuccess() {
             view.updateSelectedUserFollowingAndFollowers();
@@ -124,7 +124,7 @@ public class MainPresenter {
         mainService.follow(selectedUser, new FollowServiceObserver());
     }
 
-    private class FollowServiceObserver implements SimpleNotificationObserver {
+    private class FollowServiceObserver implements SimpleObserver {
         @Override
         public void handleSuccess() {
             view.updateSelectedUserFollowingAndFollowers();
@@ -148,7 +148,7 @@ public class MainPresenter {
         mainService.logout(new LogoutServiceObserver());
     }
 
-    private class LogoutServiceObserver implements SimpleNotificationObserver {
+    private class LogoutServiceObserver implements SimpleObserver {
         @Override
         public void handleSuccess() {
             view.logout();
