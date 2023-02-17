@@ -11,7 +11,7 @@ import edu.byu.cs.tweeter.model.domain.User;
 public class UserService {
     public interface Observer {
         void displayMessage(String message);
-        void displayUser(User user);
+        void handleSuccess(User user);
     }
 
     public void getUser(String userAlias, Observer observer) {

@@ -24,8 +24,7 @@ public class GetUserHandler extends Handler {
 
         if (success) {
             User user = (User) msg.getData().getSerializable(GetUserTask.USER_KEY);
-
-            observer.displayUser(user);
+            observer.handleSuccess(user);
         } else if (msg.getData().containsKey(GetUserTask.MESSAGE_KEY)) {
             String message = msg.getData().getString(GetUserTask.MESSAGE_KEY);
             observer.displayMessage("Failed to get user's profile: " + message);

@@ -28,7 +28,7 @@ public class GetUserPresenter {
         }
 
         @Override
-        public void displayUser(User user) {
+        public void handleSuccess(User user) {
             view.displayUser(user);
         }
     }
