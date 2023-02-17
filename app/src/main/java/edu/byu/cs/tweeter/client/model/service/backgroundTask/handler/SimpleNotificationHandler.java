@@ -3,12 +3,11 @@ package edu.byu.cs.tweeter.client.model.service.backgroundTask.handler;
 import android.os.Bundle;
 import android.os.Looper;
 
-import edu.byu.cs.tweeter.client.model.service.MainService;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.SimpleNotificationObserver;
 
-public class FollowHandler extends BackgroundTaskHandler<SimpleNotificationObserver> {
-    public FollowHandler(MainService.FollowObserver observer) {
-        super(Looper.getMainLooper(), observer);
+public class SimpleNotificationHandler extends BackgroundTaskHandler<SimpleNotificationObserver> {
+    public SimpleNotificationHandler(Looper looper, SimpleNotificationObserver observer) {
+        super(looper, observer);
     }
 
     @Override
