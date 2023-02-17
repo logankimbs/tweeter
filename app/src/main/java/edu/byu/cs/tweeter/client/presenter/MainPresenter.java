@@ -81,17 +81,6 @@ public class MainPresenter {
     }
 
 
-    private void handleUnfollow() {
-        view.updateSelectedUserFollowingAndFollowers();
-        view.updateFollowButton(true);
-    }
-
-    private void handleFollow() {
-        view.updateSelectedUserFollowingAndFollowers();
-        view.updateFollowButton(false);
-    }
-
-
     public void logout() {
         mainService.logout(new MainServiceObserver());
     }

@@ -61,6 +61,21 @@ public class MainService {
 
 
 
+    public interface UnfollowObserver extends SimpleNotificationObserver {
+        void handleSuccess();
+        void handleFailure(String message);
+        void handleException(Exception ex);
+    }
+
+    public void unfollow(User selectedUser, UnfollowObserver observer) {
+        UnfollowTask unfollowTask = new UnfollowTask(Cache.getInstance().getCurrUserAuthToken(),
+                selectedUser, new UnfollowHandler(observer));
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(unfollowTask);
+    }
+
+
+
 
     public interface IsFollowerObserver extends ServiceObserver {
         void handleSuccess(boolean isFollower);
@@ -73,23 +88,6 @@ public class MainService {
                 Cache.getInstance().getCurrUser(), selectedUser, new IsFollowerHandler(observer));
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(isFollowerTask);
-    }
-
-
-
-
-
-    public interface UnfollowObserver extends SimpleNotificationObserver {
-        void handleSuccess();
-        void handleFailure(String message);
-        void handleException(Exception ex);
-    }
-
-    public void unfollow(User selectedUser, UnfollowObserver observer) {
-        UnfollowTask unfollowTask = new UnfollowTask(Cache.getInstance().getCurrUserAuthToken(),
-                selectedUser, new UnfollowHandler(observer));
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(unfollowTask);
     }
 
 

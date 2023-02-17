@@ -13,7 +13,6 @@ public class FollowHandler extends BackgroundTaskHandler<SimpleNotificationObser
 
     @Override
     protected void handleSuccess(Bundle data, SimpleNotificationObserver observer) {
-        System.out.println("Follow this person");
         observer.handleSuccess();
     }
 }
