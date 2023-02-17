@@ -185,7 +185,6 @@ public class MainActivity extends AppCompatActivity implements StatusDialogFragm
     public void updateSelectedUserFollowingAndFollowers() {
         presenter.getFollowingCount(selectedUser);
         presenter.getFollowersCount(selectedUser);
-//        presenter.getCounts(selectedUser);
     }
 
     @Override

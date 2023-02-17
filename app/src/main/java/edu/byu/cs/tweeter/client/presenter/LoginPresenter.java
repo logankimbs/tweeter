@@ -26,7 +26,7 @@ public class LoginPresenter {
         loginService.login(alias, password, new LoginServiceObserver());
     }
 
-    private class LoginServiceObserver implements LoginService.LoginObserver {
+    private class LoginServiceObserver implements AuthObserver {
         @Override
         public void handleSuccess(User user, AuthToken authToken) {
             Cache.getInstance().setCurrUser(user);

@@ -2,6 +2,8 @@ package edu.byu.cs.tweeter.client.presenter;
 
 import edu.byu.cs.tweeter.client.model.service.MainService;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.BooleanObserver;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.CountObserver;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.SimpleNotificationObserver;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class MainPresenter {
@@ -13,9 +15,15 @@ public class MainPresenter {
         mainService = new MainService();
     }
 
-
-
-
+    public interface View {
+        void displayMessage(String message);
+        void isFollower(boolean isFollower);
+        void updateSelectedUserFollowingAndFollowers();
+        void updateFollowButton(boolean isFollower);
+        void logout();
+        void followerCount(int count);
+        void followeeCount(int count);
+    }
 
 
 
@@ -23,7 +31,7 @@ public class MainPresenter {
         mainService.getFollowingCount(selectedUser, new GetFollowingCountObserver());
     }
 
-    private class GetFollowingCountObserver implements MainService.GetFollowingCountObserver {
+    private class GetFollowingCountObserver implements CountObserver {
         @Override
         public void handleSuccess(int count) {
             view.followeeCount(count);
@@ -42,13 +50,11 @@ public class MainPresenter {
 
 
 
-
-
     public void getFollowersCount(User selectedUser) {
         mainService.getFollowersCount(selectedUser, new GetFollowersCountObserver());
     }
 
-    private class GetFollowersCountObserver implements MainService.GetFollowersCountObserver {
+    private class GetFollowersCountObserver implements CountObserver {
         @Override
         public void handleSuccess(int count) {
             view.followerCount(count);
@@ -66,18 +72,6 @@ public class MainPresenter {
     }
 
 
-
-
-
-    public interface View {
-        void displayMessage(String message);
-        void isFollower(boolean isFollower);
-        void updateSelectedUserFollowingAndFollowers();
-        void updateFollowButton(boolean isFollower);
-        void logout();
-        void followerCount(int count);
-        void followeeCount(int count);
-    }
 
     public void isFollower(User selectedUser) {
         mainService.isFollower(selectedUser, new IsFollowerObserver());
@@ -102,13 +96,11 @@ public class MainPresenter {
 
 
 
-
-
     public void unfollow(User selectedUser) {
         mainService.unfollow(selectedUser, new UnfollowServiceObserver());
     }
 
-    private class UnfollowServiceObserver implements MainService.UnfollowObserver {
+    private class UnfollowServiceObserver implements SimpleNotificationObserver {
         @Override
         public void handleSuccess() {
             view.updateSelectedUserFollowingAndFollowers();
@@ -128,13 +120,11 @@ public class MainPresenter {
 
 
 
-
-
     public void follow(User selectedUser) {
         mainService.follow(selectedUser, new FollowServiceObserver());
     }
 
-    private class FollowServiceObserver implements MainService.FollowObserver {
+    private class FollowServiceObserver implements SimpleNotificationObserver {
         @Override
         public void handleSuccess() {
             view.updateSelectedUserFollowingAndFollowers();
@@ -154,14 +144,11 @@ public class MainPresenter {
 
 
 
-
-
-
     public void logout() {
         mainService.logout(new LogoutServiceObserver());
     }
 
-    private class LogoutServiceObserver implements MainService.LogoutObserver {
+    private class LogoutServiceObserver implements SimpleNotificationObserver {
         @Override
         public void handleSuccess() {
             view.logout();
@@ -180,64 +167,14 @@ public class MainPresenter {
 
 
 
-
-
-
-
     public void postStatus(String status) {
         mainService.postStatus(status, new MainServiceObserver());
     }
-
-//    public void getCounts(User selectedUser) {
-//        mainService.getCounts(selectedUser, new MainServiceObserver());
-//    }
 
     private class MainServiceObserver implements MainService.Observer {
         @Override
         public void displayMessage(String message) {
             view.displayMessage(message);
-        }
-
-        @Override
-        public void isFollower(boolean isFollower) {
-            view.isFollower(isFollower);
-        }
-
-        @Override
-        public void updateSelectedUserFollowingAndFollowers() {
-            view.updateSelectedUserFollowingAndFollowers();
-        }
-
-        @Override
-        public void updateFollowButton(boolean isFollower) {
-            view.updateFollowButton(isFollower);
-        }
-
-        @Override
-        public void logout() {
-            view.logout();
-        }
-
-        @Override
-        public void followerCount(int count) {
-            view.followerCount(count);
-        }
-
-        @Override
-        public void followeeCount(int count) {
-            view.followeeCount(count);
-        }
-
-        @Override
-        public void handleUnfollow() {
-            updateSelectedUserFollowingAndFollowers();
-            updateFollowButton(true);
-        }
-
-        @Override
-        public void handleFollow() {
-            updateSelectedUserFollowingAndFollowers();
-            updateFollowButton(false);
         }
     }
 }

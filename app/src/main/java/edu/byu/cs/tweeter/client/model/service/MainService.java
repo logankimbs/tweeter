@@ -33,77 +33,9 @@ import edu.byu.cs.tweeter.model.domain.User;
 public class MainService {
     public interface Observer {
         void displayMessage(String message);
-        void isFollower(boolean isFollower);
-        void updateSelectedUserFollowingAndFollowers();
-        void updateFollowButton(boolean isFollower);
-        void logout();
-        void followerCount(int count);
-        void followeeCount(int count);
-        void handleUnfollow();
-        void handleFollow();
     }
 
-
-
-    public interface FollowObserver extends SimpleNotificationObserver {
-        void handleSuccess();
-        void handleFailure(String message);
-        void handleException(Exception ex);
-    }
-
-    public void follow(User selectedUser, FollowObserver observer) {
-        FollowTask followTask = new FollowTask(Cache.getInstance().getCurrUserAuthToken(),
-                selectedUser, new SimpleNotificationHandler(Looper.getMainLooper(), observer));
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(followTask);
-    }
-
-
-
-    public interface UnfollowObserver extends SimpleNotificationObserver {
-        void handleSuccess();
-        void handleFailure(String message);
-        void handleException(Exception ex);
-    }
-
-    public void unfollow(User selectedUser, UnfollowObserver observer) {
-        UnfollowTask unfollowTask = new UnfollowTask(Cache.getInstance().getCurrUserAuthToken(),
-                selectedUser, new SimpleNotificationHandler(Looper.getMainLooper(), observer));
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(unfollowTask);
-    }
-
-
-
-    public interface IsFollowerObserver extends ServiceObserver {
-        void handleSuccess(boolean isFollower);
-        void handleFailure(String message);
-        void handleException(Exception ex);
-    }
-
-    public void isFollower(User selectedUser, BooleanObserver observer) {
-        IsFollowerTask isFollowerTask = new IsFollowerTask(Cache.getInstance().getCurrUserAuthToken(),
-                Cache.getInstance().getCurrUser(), selectedUser, new BooleanHandler(Looper.getMainLooper(), observer));
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(isFollowerTask);
-    }
-
-
-
-    public interface LogoutObserver extends SimpleNotificationObserver {
-        void handleSuccess();
-        void handleFailure(String message);
-        void handleException(Exception ex);
-    }
-
-    public void logout(SimpleNotificationObserver observer) {
-        LogoutTask logoutTask = new LogoutTask(Cache.getInstance().getCurrUserAuthToken(), new SimpleNotificationHandler(Looper.getMainLooper(), observer));
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(logoutTask);
-    }
-
-
-
+    // Implement this method
     public interface PostStatusObserver extends ServiceObserver {
         void handleSuccess();
         void handleFailure(String message);
@@ -117,38 +49,48 @@ public class MainService {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(statusTask);
     }
+    ////////////////////////
 
-
-
-    public interface GetFollowersCountObserver extends CountObserver {
-        void handleSuccess(int count);
-        void handleFailure(String message);
-        void handleException(Exception ex);
+    public void follow(User selectedUser, SimpleNotificationObserver observer) {
+        FollowTask followTask = new FollowTask(Cache.getInstance().getCurrUserAuthToken(),
+                selectedUser, new SimpleNotificationHandler(Looper.getMainLooper(), observer));
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(followTask);
     }
 
-    public void getFollowersCount(User selectedUser, GetFollowersCountObserver observer) {
+    public void unfollow(User selectedUser, SimpleNotificationObserver observer) {
+        UnfollowTask unfollowTask = new UnfollowTask(Cache.getInstance().getCurrUserAuthToken(),
+                selectedUser, new SimpleNotificationHandler(Looper.getMainLooper(), observer));
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(unfollowTask);
+    }
+
+    public void isFollower(User selectedUser, BooleanObserver observer) {
+        IsFollowerTask isFollowerTask = new IsFollowerTask(Cache.getInstance().getCurrUserAuthToken(),
+                Cache.getInstance().getCurrUser(), selectedUser, new BooleanHandler(Looper.getMainLooper(), observer));
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(isFollowerTask);
+    }
+
+    public void logout(SimpleNotificationObserver observer) {
+        LogoutTask logoutTask = new LogoutTask(Cache.getInstance().getCurrUserAuthToken(), new SimpleNotificationHandler(Looper.getMainLooper(), observer));
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(logoutTask);
+    }
+
+    public void getFollowersCount(User selectedUser, CountObserver observer) {
         GetFollowersCountTask followersCountTask = new GetFollowersCountTask(Cache.getInstance().getCurrUserAuthToken(),
                 selectedUser, new CountHandler(Looper.getMainLooper(), observer));
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(followersCountTask);
     }
 
-
-
-    public interface GetFollowingCountObserver extends CountObserver {
-        void handleSuccess(int count);
-        void handleFailure(String message);
-        void handleException(Exception ex);
-    }
-
-    public void getFollowingCount(User selectedUser, GetFollowingCountObserver observer) {
+    public void getFollowingCount(User selectedUser, CountObserver observer) {
         GetFollowingCountTask followingCountTask = new GetFollowingCountTask(Cache.getInstance().getCurrUserAuthToken(),
                 selectedUser, new CountHandler(Looper.getMainLooper(), observer));
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(followingCountTask);
     }
-
-
 
     private String getFormattedDateTime() throws ParseException {
         SimpleDateFormat userFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
