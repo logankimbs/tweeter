@@ -12,7 +12,7 @@ import edu.byu.cs.tweeter.model.domain.User;
 public class FollowService {
     public interface Observer {
         void displayMessage(String message);
-        void addFollowees(List<User> followees, boolean hasMorePages);
+        void handleSuccess(List<User> followees, boolean hasMorePages);
     }
 
     public void loadMoreItems(User user, int pageSize, User lastFollowee, Observer observer) {

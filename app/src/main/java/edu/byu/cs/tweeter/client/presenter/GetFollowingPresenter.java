@@ -54,7 +54,7 @@ public class GetFollowingPresenter {
         }
 
         @Override
-        public void addFollowees(List<User> followees, boolean hasMorePages) {
+        public void handleSuccess(List<User> followees, boolean hasMorePages) {
             isLoading = false;
             view.setLoadingFooter(false);
             lastFollowee = (followees.size() > 0) ? followees.get(followees.size() - 1) : null;
