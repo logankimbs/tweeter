@@ -8,20 +8,20 @@ import edu.byu.cs.tweeter.model.domain.User;
 
 public class RegisterPresenter {
     private View view;
-    private RegisterService registerService;
+    private RegisterService service;
 
     public RegisterPresenter(View view) {
         this.view = view;
-        registerService = new RegisterService();
+        service = new RegisterService();
     }
 
     public interface View {
         void displayMessage(String message);
-        void register(User user);
+        void updateDisplay(User user);
     }
 
     public void register(String firstName, String lastName, String alias, String password, String imageBytesBase64) {
-        registerService.register(firstName, lastName, alias, password, imageBytesBase64, new RegisterServiceObserver());
+        service.register(firstName, lastName, alias, password, imageBytesBase64, new RegisterServiceObserver());
     }
 
     private class RegisterServiceObserver implements AuthObserver {
@@ -29,8 +29,7 @@ public class RegisterPresenter {
         public void handleSuccess(User user, AuthToken authToken) {
             Cache.getInstance().setCurrUser(user);
             Cache.getInstance().setCurrUserAuthToken(authToken);
-
-            view.register(user);
+            view.updateDisplay(user);
         }
 
         @Override
