@@ -46,6 +46,7 @@ public class GetFollowersPresenter {
         return isLoading;
     }
 
+    // DEDUPE
     private class GetFollowersObserver implements PagedObserver<User> {
         @Override
         public void handleSuccess(List<User> items, boolean hasMorePages) {

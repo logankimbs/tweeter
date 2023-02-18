@@ -47,6 +47,7 @@ public class GetFeedPresenter {
         return isLoading;
     }
 
+    // DEDUPE
     private class GetFeedObserver implements PagedObserver<Status> {
         @Override
         public void handleSuccess(List<Status> items, boolean hasMorePages) {
