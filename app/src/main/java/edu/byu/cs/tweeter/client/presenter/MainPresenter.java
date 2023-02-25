@@ -1,6 +1,9 @@
 package edu.byu.cs.tweeter.client.presenter;
 
+import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.MainService;
+import edu.byu.cs.tweeter.client.model.service.StatusService;
+import edu.byu.cs.tweeter.client.model.service.UserService;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.BooleanObserver;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.CountObserver;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.SimpleObserver;
@@ -10,9 +13,18 @@ public class MainPresenter {
     private View view;
     private MainService mainService;
 
+    // create spy that wraps around
     public MainPresenter(View view) {
         this.view = view;
-        mainService = new MainService();
+        mainService = getMainService();
+    }
+
+    protected MainService getMainService() {
+        if (mainService == null) {
+            mainService = new MainService();
+        }
+
+        return mainService;
     }
 
     public interface View {
@@ -143,25 +155,32 @@ public class MainPresenter {
     }
 
 
-
+    // Testing ...
     public void logout() {
-        mainService.logout(new LogoutServiceObserver());
+        view.displayMessage("Logging out...");
+        getMainService().logout(new LogoutServiceObserver());
     }
 
-    private class LogoutServiceObserver implements SimpleObserver {
+    public class LogoutServiceObserver implements SimpleObserver {
         @Override
         public void handleSuccess() {
+            Cache.getInstance().clearCache();
+            // view.clearMessage();
             view.logout();
         }
 
         @Override
         public void handleFailure(String message) {
-            view.displayMessage(message);
+            String displayMessage = "Failed to logout: " + message;
+            // view.clearMessage();
+            view.displayMessage(displayMessage);
         }
 
         @Override
         public void handleException(Exception ex) {
-            view.displayMessage(ex.getMessage());
+            String displayMessage = "Failed to logout because of exception: " + ex.getMessage();
+            // view.clearMessage();
+            view.displayMessage(displayMessage);
         }
     }
 
