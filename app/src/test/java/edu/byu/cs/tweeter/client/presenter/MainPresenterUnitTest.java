@@ -6,84 +6,75 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.MainService;
 
 public class MainPresenterUnitTest {
-
-    // Testing logout following video example
     private MainPresenter.View mockView;
     private MainService mockMainService;
-    private Cache mockCache;
     private MainPresenter mainPresenterSpy;
 
     @BeforeEach
     public void setup() {
         mockView = Mockito.mock(MainPresenter.View.class);
         mockMainService = Mockito.mock(MainService.class);
-        mockCache = Mockito.mock(Cache.class);
         mainPresenterSpy = Mockito.spy(new MainPresenter(mockView));
 
         Mockito.when(mainPresenterSpy.getMainService()).thenReturn(mockMainService);
-        Cache.setInstance(mockCache);
     }
 
     @Test
-    public void testLogout_successful() {
+    public void testPostStatus_successful() throws InterruptedException {
         Answer<Void> answer = new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
-                MainPresenter.LogoutServiceObserver observer = invocation.getArgument(0, MainPresenter.LogoutServiceObserver.class);
+                MainPresenter.PostServiceObserver observer = invocation.getArgument(1, MainPresenter.PostServiceObserver.class);
                 observer.handleSuccess();
                 return null;
             }
         };
 
-        setupLogout(answer);
-        Mockito.verify(mockCache).clearCache();
-        // Mockito.verify(mockView).clearMessage();
-        Mockito.verify(mockView).logout();
+        verifyStatus(answer);
+        waitThenVerifyMessage("Successfully posted!");
     }
 
     @Test
-    public void testLogout_failed() {
+    public void testPostStatus_failed() throws InterruptedException {
         Answer<Void> answer = new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
-                MainPresenter.LogoutServiceObserver observer = invocation.getArgument(0, MainPresenter.LogoutServiceObserver.class);
+                MainPresenter.PostServiceObserver observer = invocation.getArgument(1, MainPresenter.PostServiceObserver.class);
                 observer.handleFailure("the error message");
                 return null;
             }
         };
 
-        setupLogout(answer);
-        verifyMessageResult("Failed to logout: the error message");
+        verifyStatus(answer);
+        waitThenVerifyMessage("Failed to post status: the error message");
     }
 
     @Test
-    public void testLogout_exception() {
+    public void testPostStatus_exception() throws InterruptedException {
         Answer<Void> answer = new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
-                MainPresenter.LogoutServiceObserver observer = invocation.getArgument(0, MainPresenter.LogoutServiceObserver.class);
+                MainPresenter.PostServiceObserver observer = invocation.getArgument(1, MainPresenter.PostServiceObserver.class);
                 observer.handleException(new Exception("the exception message"));
                 return null;
             }
         };
 
-        setupLogout(answer);
-        verifyMessageResult("Failed to logout because of exception: the exception message");
+        verifyStatus(answer);
+        waitThenVerifyMessage("Failed to post status because of exception: the exception message");
     }
 
-    private void verifyMessageResult(String message) {
-        Mockito.verify(mockCache, Mockito.times(0)).clearCache();
-        // Mockito.verify(mockView).clearMessage();
-        Mockito.verify(mockView).displayMessage(message);
+    private void verifyStatus(Answer<Void> answer) {
+        Mockito.doAnswer(answer).when(mockMainService).postStatus(Mockito.anyString(), Mockito.any(MainPresenter.PostServiceObserver.class));
+        mainPresenterSpy.postStatus("the status");
+        Mockito.verify(mockView).displayMessage("Posting status...");
     }
 
-    private void setupLogout(Answer<Void> answer) {
-        Mockito.doAnswer(answer).when(mockMainService).logout(Mockito.any(MainPresenter.LogoutServiceObserver.class));
-        mainPresenterSpy.logout();
-        Mockito.verify(mockView).displayMessage("Logging out...");
+    private void waitThenVerifyMessage(String message) throws InterruptedException {
+        Thread.sleep(1000); // Wait for 1 second before verifying the expected interaction
+        Mockito.verify(mockView, Mockito.times(1)).displayMessage(message);
     }
 }

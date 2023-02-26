@@ -155,7 +155,7 @@ public class MainPresenter {
     }
 
 
-    // Testing ...
+
     public void logout() {
         view.displayMessage("Logging out...");
         getMainService().logout(new LogoutServiceObserver());
@@ -187,13 +187,30 @@ public class MainPresenter {
 
 
     public void postStatus(String status) {
-        mainService.postStatus(status, new MainServiceObserver());
+        view.displayMessage("Posting status...");
+        getMainService().postStatus(status, new PostServiceObserver());
     }
 
-    private class MainServiceObserver implements MainService.Observer {
+    public class PostServiceObserver implements SimpleObserver {
         @Override
-        public void displayMessage(String message) {
-            view.displayMessage(message);
+        public void handleSuccess() {
+            String displayMessage = "Successfully posted!";
+            // view.clearMessage();
+            view.displayMessage(displayMessage);
+        }
+
+        @Override
+        public void handleFailure(String message) {
+            String displayMessage = "Failed to post status: " + message;
+            // view.clearMessage();
+            view.displayMessage(displayMessage);
+        }
+
+        @Override
+        public void handleException(Exception ex) {
+            String displayMessage = "Failed to post status because of exception: " + ex.getMessage();
+            // view.clearMessage();
+            view.displayMessage(displayMessage);
         }
     }
 }

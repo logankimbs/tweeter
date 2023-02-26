@@ -42,10 +42,10 @@ public class MainService {
         void handleException(Exception ex);
     }
 
-    public void postStatus(String post, Observer observer) {
+    public void postStatus(String post, SimpleObserver observer) {
         Status newStatus = new Status(post, Cache.getInstance().getCurrUser(), System.currentTimeMillis(), parseURLs(post), parseMentions(post));
         PostStatusTask statusTask = new PostStatusTask(Cache.getInstance().getCurrUserAuthToken(),
-                newStatus, new PostStatusHandler(observer));
+                newStatus, new SimpleHandler(Looper.getMainLooper(), observer));
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(statusTask);
     }
