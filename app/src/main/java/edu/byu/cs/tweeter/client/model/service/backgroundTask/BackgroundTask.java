@@ -48,13 +48,13 @@ public abstract class BackgroundTask implements Runnable {
         sendMessage(msgBundle);
     }
 
-    private void sendFailedMessage(String message) {
+    protected void sendFailedMessage(String message) {
         Bundle msgBundle = createBundle(false);
         msgBundle.putString(MESSAGE_KEY, message);
         sendMessage(msgBundle);
     }
 
-    private void sendExceptionMessage(Exception exception) {
+    protected void sendExceptionMessage(Exception exception) {
         Bundle msgBundle = createBundle(false);
         msgBundle.putSerializable(EXCEPTION_KEY, exception);
         sendMessage(msgBundle);
