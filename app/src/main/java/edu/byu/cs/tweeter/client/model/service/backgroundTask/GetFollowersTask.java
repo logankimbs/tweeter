@@ -26,6 +26,28 @@ public class GetFollowersTask extends PagedTask<User> {
 
     @Override
     protected Pair<List<User>, Boolean> getItems() {
-         return getFakeData().getPageOfUsers(getLastItem(), getLimit(), getTargetUser());
+         // return getFakeData().getPageOfUsers(getLastItem(), getLimit(), getTargetUser());
+        try {
+            String targetUserAlias = targetUser == null ? null : targetUser.getAlias();
+            String lastFollowerAlias = lastItem == null ? null : lastItem.getAlias();
+
+            FollowersRequest request = new FollowersRequest(authToken, targetUserAlias, limit, lastFollowerAlias);
+            FollowersResponse response = getServerFacade().getFollowers(request, FollowService.URL_FOLLOWERS_PATH);
+
+            if (response.isSuccess()) {
+                this.items = response.getFollowers();
+                this.hasMorePages = response.getHasMorePages();
+                sendSuccessMessage();
+            } else {
+                sendFailedMessage(response.getMessage());
+            }
+
+            return new Pair<>(items, hasMorePages);
+        } catch (IOException | TweeterRemoteException ex) {
+            Log.e(LOG_TAG, "Failed to get followers", ex);
+            sendExceptionMessage(ex);
+        }
+
+        return null;
     }
 }

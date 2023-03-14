@@ -26,7 +26,7 @@ public class GetFollowingTask extends PagedTask<User> {
 
     @Override
     protected Pair<List<User>, Boolean> getItems() {
-        // return getFakeData().getPageOfUsers((User) getLastItem(), getLimit(), getTargetUser());
+         // return getFakeData().getPageOfUsers((User) getLastItem(), getLimit(), getTargetUser());
         try {
             String targetUserAlias = targetUser == null ? null : targetUser.getAlias();
             String lastFolloweeAlias = lastItem == null ? null : lastItem.getAlias();
