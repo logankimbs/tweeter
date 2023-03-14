@@ -10,14 +10,14 @@ public class GetFollowersPresenter {
     private static final int PAGE_SIZE = 10;
 
     private View view;
-    private FollowService followService;
+    private FollowService followersService;
     private User lastFollower;
     private boolean hasMorePages;
     private boolean isLoading = false;
 
     public GetFollowersPresenter(View view) {
         this.view = view;
-        followService = new FollowService();
+        followersService = new FollowService();
     }
 
     public interface View {
@@ -30,7 +30,7 @@ public class GetFollowersPresenter {
         if (!isLoading) {
             isLoading = true;
             view.setLoadingFooter(true);
-            followService.loadMoreItems(user, PAGE_SIZE, lastFollower, new GetFollowersObserver());
+            followersService.loadMoreItems(user, PAGE_SIZE, lastFollower, new GetFollowersObserver());
         }
     }
 
@@ -46,7 +46,6 @@ public class GetFollowersPresenter {
         return isLoading;
     }
 
-    // DEDUPE
     private class GetFollowersObserver implements PagedObserver<User> {
         @Override
         public void handleSuccess(List<User> items, boolean hasMorePages) {
