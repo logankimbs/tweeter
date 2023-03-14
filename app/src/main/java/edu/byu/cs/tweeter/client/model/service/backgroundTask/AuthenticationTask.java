@@ -43,18 +43,11 @@ public abstract class AuthenticationTask extends BackgroundTask {
         msgBundle.putSerializable(AUTH_TOKEN_KEY, authToken);
     }
 
-    /**
-     * Returns an instance of {@link ServerFacade}. Allows mocking of the ServerFacade class for
-     * testing purposes. All usages of ServerFacade should get their instance from this method to
-     * allow for proper mocking.
-     *
-     * @return the instance.
-     */
-    ServerFacade getServerFacade() {
+    public ServerFacade getServerFacade() {
         if(serverFacade == null) {
             serverFacade = new ServerFacade();
         }
 
-        return serverFacade;
+        return new ServerFacade();
     }
 }

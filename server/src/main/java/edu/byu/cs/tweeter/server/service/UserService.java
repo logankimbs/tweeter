@@ -24,10 +24,16 @@ public class UserService {
     }
 
     public RegisterResponse register(RegisterRequest request) {
-        if (request.getAlias() == null) {
+        if (request.getFirstName() == null) {
+            throw new RuntimeException("[Bad Request] Missing a firstName");
+        } else if (request.getLastName() == null) {
+            throw new RuntimeException("[Bad Request] Missing a lastName");
+        } else if (request.getUsername() == null) {
             throw new RuntimeException("[Bad Request] Missing a username");
         } else if (request.getPassword() == null) {
             throw new RuntimeException("[Bad Request] Missing a password");
+        } else if (request.getImageUrl() == null) {
+            throw new RuntimeException("[Bad Request] Missing a imageUrl");
         }
 
         // TODO: Generates dummy data. Replace with a real implementation.
