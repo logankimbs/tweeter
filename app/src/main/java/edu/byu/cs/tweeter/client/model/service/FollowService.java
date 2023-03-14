@@ -12,6 +12,8 @@ import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.PagedObse
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class FollowService {
+    public static final String URL_PATH = "/getfollowing";
+
     public void loadMoreItems(User user, int pageSize, User lastFollowee, PagedObserver<User> observer) {
         GetFollowingTask getFollowingTask = new GetFollowingTask(Cache.getInstance().getCurrUserAuthToken(),
                 user, pageSize, lastFollowee, new PagedHandler<>(Looper.getMainLooper(), observer));
