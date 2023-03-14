@@ -12,7 +12,6 @@ public abstract class AuthenticationTask extends BackgroundTask {
     public static final String USER_KEY = "user";
     public static final String AUTH_TOKEN_KEY = "auth-token";
 
-    private ServerFacade serverFacade;
     private User authenticatedUser;
     private AuthToken authToken;
 
@@ -41,13 +40,5 @@ public abstract class AuthenticationTask extends BackgroundTask {
     protected void loadSuccessBundle(Bundle msgBundle) {
         msgBundle.putSerializable(USER_KEY, authenticatedUser);
         msgBundle.putSerializable(AUTH_TOKEN_KEY, authToken);
-    }
-
-    public ServerFacade getServerFacade() {
-        if(serverFacade == null) {
-            serverFacade = new ServerFacade();
-        }
-
-        return new ServerFacade();
     }
 }

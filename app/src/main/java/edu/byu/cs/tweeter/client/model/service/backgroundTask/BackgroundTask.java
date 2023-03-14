@@ -7,6 +7,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import edu.byu.cs.tweeter.client.model.net.ServerFacade;
 import edu.byu.cs.tweeter.util.FakeData;
 
 public abstract class BackgroundTask implements Runnable {
@@ -17,6 +18,7 @@ public abstract class BackgroundTask implements Runnable {
     public static final String EXCEPTION_KEY = "exception";
 
     private Handler messageHandler;
+    private ServerFacade serverFacade;
 
     protected BackgroundTask(Handler messageHandler) {
         this.messageHandler = messageHandler;
@@ -58,6 +60,14 @@ public abstract class BackgroundTask implements Runnable {
         Bundle msgBundle = createBundle(false);
         msgBundle.putSerializable(EXCEPTION_KEY, exception);
         sendMessage(msgBundle);
+    }
+
+    protected ServerFacade getServerFacade() {
+        if(serverFacade == null) {
+            serverFacade = new ServerFacade();
+        }
+
+        return new ServerFacade();
     }
 
     @NonNull

@@ -16,7 +16,6 @@ public abstract class PagedTask<T> extends AuthenticatedTask {
     public static final String ITEMS_KEY = "items";
     public static final String MORE_PAGES_KEY = "more-pages";
 
-    private ServerFacade serverFacade;
     protected User targetUser;
     protected int limit;
     protected T lastItem;
@@ -60,13 +59,5 @@ public abstract class PagedTask<T> extends AuthenticatedTask {
     protected void loadSuccessBundle(Bundle msgBundle) {
         msgBundle.putSerializable(ITEMS_KEY, (Serializable) items);
         msgBundle.putBoolean(MORE_PAGES_KEY, hasMorePages);
-    }
-
-    public ServerFacade getServerFacade() {
-        if(serverFacade == null) {
-            serverFacade = new ServerFacade();
-        }
-
-        return new ServerFacade();
     }
 }
