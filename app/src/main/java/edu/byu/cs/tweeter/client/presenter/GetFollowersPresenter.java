@@ -30,7 +30,7 @@ public class GetFollowersPresenter {
         if (!isLoading) {
             isLoading = true;
             view.setLoadingFooter(true);
-            followersService.loadMoreItems(user, PAGE_SIZE, lastFollower, new GetFollowersObserver());
+            followersService.getFollowers(user, PAGE_SIZE, lastFollower, new GetFollowersObserver());
         }
     }
 

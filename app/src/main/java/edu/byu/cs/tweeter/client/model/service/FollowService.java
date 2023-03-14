@@ -14,11 +14,19 @@ import edu.byu.cs.tweeter.model.domain.User;
 
 public class FollowService {
     public static final String URL_FOLLOWING_PATH = "/getfollowing";
+    public static final String URL_FOLLOWERS_PATH = "/getfollowers";
 
-    public void loadMoreItems(User user, int pageSize, User lastFollowee, PagedObserver<User> observer) {
+    public void getFollowing(User user, int pageSize, User lastFollowee, PagedObserver<User> observer) {
         GetFollowingTask getFollowingTask = new GetFollowingTask(Cache.getInstance().getCurrUserAuthToken(),
                 user, pageSize, lastFollowee, new PagedHandler<>(Looper.getMainLooper(), observer));
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(getFollowingTask);
+    }
+
+    public void getFollowers(User user, int pageSize, User lastFollower, PagedObserver<User> observer) {
+        GetFollowersTask getFollowersTask = new GetFollowersTask(Cache.getInstance().getCurrUserAuthToken(),
+                user, pageSize, lastFollower, new PagedHandler<>(Looper.getMainLooper(), observer));
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(getFollowersTask);
     }
 }
