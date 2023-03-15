@@ -12,7 +12,6 @@ public class CountHandler extends BackgroundTaskHandler<CountObserver> {
 
     @Override
     protected void handleSuccess(Bundle data, CountObserver observer) {
-        System.out.println("Count is hard-coded to 20");
         observer.handleSuccess(20);
     }
 }
