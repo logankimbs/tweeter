@@ -13,7 +13,10 @@ public class BooleanHandler extends BackgroundTaskHandler<BooleanObserver> {
 
     @Override
     protected void handleSuccess(Bundle data, BooleanObserver observer) {
-        boolean value = data.getBoolean(IsFollowerTask.IS_FOLLOWER_KEY);
-        observer.handleSuccess(value);
+//        boolean value = data.getBoolean(IsFollowerTask.IS_FOLLOWER_KEY);
+//        observer.handleSuccess(value);
+
+        observer.handleSuccess(data.getBoolean(IsFollowerTask.IS_FOLLOWER_KEY));
+
     }
 }
