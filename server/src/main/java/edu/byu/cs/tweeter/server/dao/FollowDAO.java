@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Random;
 
 import edu.byu.cs.tweeter.model.domain.User;
+import edu.byu.cs.tweeter.model.net.request.FollowRequest;
 import edu.byu.cs.tweeter.model.net.request.FollowersRequest;
 import edu.byu.cs.tweeter.model.net.request.FollowingRequest;
 import edu.byu.cs.tweeter.model.net.request.IsFollowerRequest;
+import edu.byu.cs.tweeter.model.net.response.FollowResponse;
 import edu.byu.cs.tweeter.model.net.response.FollowersCountResponse;
 import edu.byu.cs.tweeter.model.net.response.FollowersResponse;
 import edu.byu.cs.tweeter.model.net.response.FollowingCountResponse;
@@ -206,9 +208,12 @@ public class FollowDAO {
         return FakeData.getInstance();
     }
 
-
     public IsFollowerResponse getIsFollower(IsFollowerRequest request) {
         // TODO: Generates dummy data. Replace with a real implementation.
         return new IsFollowerResponse(new Random().nextInt() > 0);
+    }
+
+    public FollowResponse follow(FollowRequest request) {
+        return new FollowResponse();
     }
 }
