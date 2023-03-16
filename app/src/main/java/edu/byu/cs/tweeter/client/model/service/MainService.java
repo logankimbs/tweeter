@@ -31,14 +31,18 @@ import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class MainService {
-    public static final String URL_FOLLOWING_COUNT_PATH = "/getfollowingcount";
+    public static final String URL_PATH = "/poststatus";
+    public static final String URL_FOLLOW_PATH = "/follow";
+    public static final String URL_UNFOLLOW_PATH = "/unfollow";
+    public static final String URL_IS_FOLLOWER_PATH = "/isfollower";
+    public static final String URL_LOGOUT_PATH = "/logout";
     public static final String URL_FOLLOWERS_COUNT_PATH = "/getfollowerscount";
+    public static final String URL_FOLLOWING_COUNT_PATH = "/getfollowingcount";
 
     public interface Observer {
         void displayMessage(String message);
     }
 
-    // Implement this method
     public interface PostStatusObserver extends ServiceObserver {
         void handleSuccess();
         void handleFailure(String message);
@@ -52,7 +56,6 @@ public class MainService {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(statusTask);
     }
-    ////////////////////////
 
     public void follow(User selectedUser, SimpleObserver observer) {
         FollowTask followTask = new FollowTask(Cache.getInstance().getCurrUserAuthToken(),
