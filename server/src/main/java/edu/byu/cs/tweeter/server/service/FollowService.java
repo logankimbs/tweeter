@@ -6,12 +6,14 @@ import edu.byu.cs.tweeter.model.net.request.FollowersRequest;
 import edu.byu.cs.tweeter.model.net.request.FollowingCountRequest;
 import edu.byu.cs.tweeter.model.net.request.FollowingRequest;
 import edu.byu.cs.tweeter.model.net.request.IsFollowerRequest;
+import edu.byu.cs.tweeter.model.net.request.UnfollowRequest;
 import edu.byu.cs.tweeter.model.net.response.FollowResponse;
 import edu.byu.cs.tweeter.model.net.response.FollowersCountResponse;
 import edu.byu.cs.tweeter.model.net.response.FollowersResponse;
 import edu.byu.cs.tweeter.model.net.response.FollowingCountResponse;
 import edu.byu.cs.tweeter.model.net.response.FollowingResponse;
 import edu.byu.cs.tweeter.model.net.response.IsFollowerResponse;
+import edu.byu.cs.tweeter.model.net.response.UnfollowResponse;
 import edu.byu.cs.tweeter.server.dao.FollowDAO;
 
 /**
@@ -106,5 +108,12 @@ public class FollowService {
             throw new RuntimeException("[Bad Request] Request needs to have a followeeAlias");
         }
         return getFollowersDAO().follow(request);
+    }
+
+    public UnfollowResponse unfollow(UnfollowRequest request) {
+        if(request.getFolloweeAlias() == null) {
+            throw new RuntimeException("[Bad Request] Request needs to have a followeeAlias");
+        }
+        return getFollowersDAO().unfollow(request);
     }
 }
