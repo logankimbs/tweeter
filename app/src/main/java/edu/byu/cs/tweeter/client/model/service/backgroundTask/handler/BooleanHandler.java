@@ -16,7 +16,7 @@ public class BooleanHandler extends BackgroundTaskHandler<BooleanObserver> {
 //        boolean value = data.getBoolean(IsFollowerTask.IS_FOLLOWER_KEY);
 //        observer.handleSuccess(value);
 
-        observer.handleSuccess(data.getBoolean(IsFollowerTask.IS_FOLLOWER_KEY));
+        observer.handleSuccess(data.getBoolean("isFollower"));
 
     }
 }
