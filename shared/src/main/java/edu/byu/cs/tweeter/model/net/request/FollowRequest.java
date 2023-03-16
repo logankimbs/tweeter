@@ -1,29 +1,19 @@
 package edu.byu.cs.tweeter.model.net.request;
 
 public class FollowRequest {
-    private String followerAlias;
-    private String userToFollowAlias;
+    private String followeeAlias;
 
     private FollowRequest() {}
 
-    public FollowRequest(String followerAlias, String userToFollowAlias) {
-        this.followerAlias = followerAlias;
-        this.userToFollowAlias = userToFollowAlias;
+    public FollowRequest(String followeeAlias) {
+        this.followeeAlias = followeeAlias;
     }
 
-    public String getFollowerAlias() {
-        return followerAlias;
+    public String getFolloweeAlias() {
+        return followeeAlias;
     }
 
-    public String getUserToFollowAlias() {
-        return userToFollowAlias;
-    }
-
-    public void setFollowerAlias(String followerAlias) {
-        this.followerAlias = followerAlias;
-    }
-
-    public void setUserToFollowAlias(String userToFollowAlias) {
-        this.userToFollowAlias = userToFollowAlias;
+    public void setFolloweeAlias(String followeeAlias) {
+        this.followeeAlias = followeeAlias;
     }
 }

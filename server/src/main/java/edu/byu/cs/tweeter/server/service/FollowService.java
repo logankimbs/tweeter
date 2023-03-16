@@ -102,10 +102,8 @@ public class FollowService {
     }
 
     public FollowResponse follow(FollowRequest request) {
-        if(request.getFollowerAlias() == null) {
-            throw new RuntimeException("[Bad Request] Request needs to have a follower alias");
-        } else if(request.getUserToFollowAlias() == null) {
-            throw new RuntimeException("[Bad Request] Request needs to have a followee alias");
+        if(request.getFolloweeAlias() == null) {
+            throw new RuntimeException("[Bad Request] Request needs to have a followeeAlias");
         }
         return getFollowersDAO().follow(request);
     }
