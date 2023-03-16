@@ -13,7 +13,7 @@ public class FollowersCountRequest {
         return userAlias;
     }
 
-    public void setAlias(String userAlias) {
+    public void setUserAlias(String userAlias) {
         this.userAlias = userAlias;
     }
 }
