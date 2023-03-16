@@ -1,8 +1,10 @@
 package edu.byu.cs.tweeter.server.service;
 
 import edu.byu.cs.tweeter.model.net.request.FollowersRequest;
+import edu.byu.cs.tweeter.model.net.request.FollowingCountRequest;
 import edu.byu.cs.tweeter.model.net.request.FollowingRequest;
 import edu.byu.cs.tweeter.model.net.response.FollowersResponse;
+import edu.byu.cs.tweeter.model.net.response.FollowingCountResponse;
 import edu.byu.cs.tweeter.model.net.response.FollowingResponse;
 import edu.byu.cs.tweeter.server.dao.FollowDAO;
 
@@ -68,5 +70,12 @@ public class FollowService {
      */
     public FollowDAO getFollowersDAO() {
         return new FollowDAO();
+    }
+
+    public FollowingCountResponse getFollowingCount(FollowingCountRequest request) {
+        if(request.getUserAlias() == null) {
+            throw new RuntimeException("[Bad Request] Request needs to have a follower alias");
+        }
+        return getFollowingDAO().getFolloweeCount(request.getUserAlias());
     }
 }

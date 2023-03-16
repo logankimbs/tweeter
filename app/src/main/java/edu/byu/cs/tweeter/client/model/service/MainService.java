@@ -31,6 +31,8 @@ import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class MainService {
+    public static final String URL_FOLLOWING_COUNT_PATH = "/getfollowingcount";
+
     public interface Observer {
         void displayMessage(String message);
     }

@@ -9,8 +9,8 @@ import edu.byu.cs.tweeter.model.domain.User;
 public abstract class CountTask extends AuthenticatedTask {
     public static final String COUNT_KEY = "count";
 
-    private User targetUser;
-    private int count;
+    protected User targetUser;
+    protected int count;
 
     protected CountTask(AuthToken authToken, User targetUser, Handler messageHandler) {
         super(messageHandler, authToken);

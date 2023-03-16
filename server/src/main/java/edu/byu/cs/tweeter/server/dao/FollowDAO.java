@@ -7,6 +7,7 @@ import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.net.request.FollowersRequest;
 import edu.byu.cs.tweeter.model.net.request.FollowingRequest;
 import edu.byu.cs.tweeter.model.net.response.FollowersResponse;
+import edu.byu.cs.tweeter.model.net.response.FollowingCountResponse;
 import edu.byu.cs.tweeter.model.net.response.FollowingResponse;
 import edu.byu.cs.tweeter.util.FakeData;
 
@@ -19,13 +20,13 @@ public class FollowDAO {
      * Gets the count of users from the database that the user specified is following. The
      * current implementation uses generated data and doesn't actually access a database.
      *
-     * @param follower the User whose count of how many following is desired.
+     * @param userAlias the User whose count of how many following is desired.
      * @return said count.
      */
-    public Integer getFolloweeCount(User follower) {
+    public FollowingCountResponse getFolloweeCount(String userAlias) {
         // TODO: uses the dummy data.  Replace with a real implementation.
-        assert follower != null;
-        return getDummyFollowees().size();
+        assert userAlias != null;
+        return new FollowingCountResponse(getDummyFollowees().size());
     }
 
     /**
