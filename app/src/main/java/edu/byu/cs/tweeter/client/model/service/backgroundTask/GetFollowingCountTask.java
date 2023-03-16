@@ -39,7 +39,7 @@ public class GetFollowingCountTask extends CountTask {
 
             return count;
         } catch (IOException | TweeterRemoteException ex) {
-            Log.e(LOG_TAG, "Failed to get followees", ex);
+            Log.e(LOG_TAG, "Failed to get followees count", ex);
             sendExceptionMessage(ex);
         }
 

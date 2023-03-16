@@ -12,6 +12,6 @@ public class CountHandler extends BackgroundTaskHandler<CountObserver> {
 
     @Override
     protected void handleSuccess(Bundle data, CountObserver observer) {
-        observer.handleSuccess(20);
+        observer.handleSuccess(data.getInt("count"));
     }
 }
