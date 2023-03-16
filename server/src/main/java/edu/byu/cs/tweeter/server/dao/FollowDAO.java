@@ -6,6 +6,7 @@ import java.util.List;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.model.net.request.FollowersRequest;
 import edu.byu.cs.tweeter.model.net.request.FollowingRequest;
+import edu.byu.cs.tweeter.model.net.response.FollowersCountResponse;
 import edu.byu.cs.tweeter.model.net.response.FollowersResponse;
 import edu.byu.cs.tweeter.model.net.response.FollowingCountResponse;
 import edu.byu.cs.tweeter.model.net.response.FollowingResponse;
@@ -33,13 +34,13 @@ public class FollowDAO {
      * Gets the count of users from the database that the user specified is followed by. The
      * current implementation uses generated data and doesn't actually access a database.
      *
-     * @param followee the User whose count of how many followers is desired.
+     * @param userAlias the User whose count of how many followers is desired.
      * @return said count.
      */
-    public Integer getFollowerCount(User followee) {
+    public FollowersCountResponse getFollowerCount(String userAlias) {
         // TODO: uses the dummy data.  Replace with a real implementation.
-        assert followee != null;
-        return getDummyFollowees().size();
+        assert userAlias != null;
+        return new FollowersCountResponse(getDummyFollowers().size());
     }
 
     /**
