@@ -3,8 +3,6 @@ package edu.byu.cs.tweeter.client.model.service.backgroundTask;
 import android.os.Handler;
 import android.util.Log;
 
-import edu.byu.cs.tweeter.client.model.net.ServerFacade;
-import edu.byu.cs.tweeter.client.model.service.RegisterService;
 import edu.byu.cs.tweeter.client.model.service.UserService;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
@@ -37,7 +35,7 @@ public class RegisterTask extends AuthenticationTask {
 
         try {
             RegisterRequest request = new RegisterRequest(firstName, lastName, username, password, image);
-            RegisterResponse response = getServerFacade().register(request, RegisterService.URL_PATH);
+            RegisterResponse response = getServerFacade().register(request, UserService.REGISTER_URL);
 
             if (response.isSuccess()) {
                 sendSuccessMessage();

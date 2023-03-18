@@ -6,9 +6,6 @@ import android.os.Handler;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 
-/**
- * Background task that returns the profile for a specified user.
- */
 public class GetUserTask extends AuthenticatedTask {
     private static final String LOG_TAG = "GetUserTask";
 

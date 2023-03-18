@@ -14,9 +14,6 @@ import edu.byu.cs.tweeter.model.net.request.FollowingRequest;
 import edu.byu.cs.tweeter.model.net.response.FollowingResponse;
 import edu.byu.cs.tweeter.util.Pair;
 
-/**
- * Background task that retrieves a page of other users being followed by a specified user.
- */
 public class GetFollowingTask extends PagedTask<User> {
     private static final String LOG_TAG = "GetFollowingTask";
 
@@ -32,7 +29,7 @@ public class GetFollowingTask extends PagedTask<User> {
             String lastFolloweeAlias = lastItem == null ? null : lastItem.getAlias();
 
             FollowingRequest request = new FollowingRequest(authToken, targetUserAlias, limit, lastFolloweeAlias);
-            FollowingResponse response = getServerFacade().getFollowees(request, FollowService.URL_FOLLOWING_PATH);
+            FollowingResponse response = getServerFacade().getFollowees(request, FollowService.GET_FOLLOWING_URL);
 
             if (response.isSuccess()) {
                 this.items = response.getFollowees();

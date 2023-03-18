@@ -1,18 +1,18 @@
 package edu.byu.cs.tweeter.client.presenter;
 
 import edu.byu.cs.tweeter.client.cache.Cache;
-import edu.byu.cs.tweeter.client.model.service.RegisterService;
+import edu.byu.cs.tweeter.client.model.service.UserService;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.AuthObserver;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class RegisterPresenter {
     private View view;
-    private RegisterService service;
+    private UserService service;
 
     public RegisterPresenter(View view) {
         this.view = view;
-        service = new RegisterService();
+        service = new UserService();
     }
 
     public interface View {

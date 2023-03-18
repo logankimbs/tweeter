@@ -1,18 +1,18 @@
 package edu.byu.cs.tweeter.client.presenter;
 
 import edu.byu.cs.tweeter.client.cache.Cache;
-import edu.byu.cs.tweeter.client.model.service.LoginService;
+import edu.byu.cs.tweeter.client.model.service.UserService;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.AuthObserver;
 import edu.byu.cs.tweeter.model.domain.AuthToken;
 import edu.byu.cs.tweeter.model.domain.User;
 
 public class LoginPresenter {
     private View view;
-    private LoginService service;
+    private UserService service;
 
     public LoginPresenter(View view) {
         this.view = view;
-        service = new LoginService();
+        service = new UserService();
     }
 
     public interface View {

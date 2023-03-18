@@ -3,7 +3,6 @@ package edu.byu.cs.tweeter.client.presenter;
 import edu.byu.cs.tweeter.client.cache.Cache;
 import edu.byu.cs.tweeter.client.model.service.MainService;
 import edu.byu.cs.tweeter.client.model.service.StatusService;
-import edu.byu.cs.tweeter.client.model.service.UserService;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.BooleanObserver;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.CountObserver;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.observer.SimpleObserver;
@@ -12,11 +11,12 @@ import edu.byu.cs.tweeter.model.domain.User;
 public class MainPresenter {
     private View view;
     private MainService mainService;
+    private StatusService statusService;
 
-    // create spy that wraps around
     public MainPresenter(View view) {
         this.view = view;
         mainService = getMainService();
+        statusService = getStatusService();
     }
 
     protected MainService getMainService() {
@@ -25,6 +25,14 @@ public class MainPresenter {
         }
 
         return mainService;
+    }
+
+    protected StatusService getStatusService() {
+        if (statusService == null) {
+            statusService = new StatusService();
+        }
+
+        return statusService;
     }
 
     public interface View {
@@ -36,8 +44,6 @@ public class MainPresenter {
         void followerCount(int count);
         void followeeCount(int count);
     }
-
-
 
     public void getFollowingCount(User selectedUser) {
         mainService.getFollowingCount(selectedUser, new GetFollowingCountObserver());
@@ -60,8 +66,6 @@ public class MainPresenter {
         }
     }
 
-
-
     public void getFollowersCount(User selectedUser) {
         mainService.getFollowersCount(selectedUser, new GetFollowersCountObserver());
     }
@@ -83,8 +87,6 @@ public class MainPresenter {
         }
     }
 
-
-
     public void isFollower(User selectedUser) {
         mainService.isFollower(selectedUser, new IsFollowerObserver());
     }
@@ -105,8 +107,6 @@ public class MainPresenter {
             view.displayMessage(ex.getMessage());
         }
     }
-
-
 
     public void unfollow(User selectedUser) {
         mainService.unfollow(selectedUser, new UnfollowServiceObserver());
@@ -130,8 +130,6 @@ public class MainPresenter {
         }
     }
 
-
-
     public void follow(User selectedUser) {
         mainService.follow(selectedUser, new FollowServiceObserver());
     }
@@ -153,8 +151,6 @@ public class MainPresenter {
             view.displayMessage(ex.getMessage());
         }
     }
-
-
 
     public void logout() {
         view.displayMessage("Logging out...");
@@ -184,11 +180,9 @@ public class MainPresenter {
         }
     }
 
-
-
     public void postStatus(String status) {
         view.displayMessage("Posting status...");
-        getMainService().postStatus(status, new PostServiceObserver());
+        getStatusService().postStatus(status, new PostServiceObserver());
     }
 
     public class PostServiceObserver implements SimpleObserver {

@@ -10,9 +10,6 @@ import edu.byu.cs.tweeter.model.net.request.LoginRequest;
 import edu.byu.cs.tweeter.model.net.response.LoginResponse;
 import edu.byu.cs.tweeter.util.Pair;
 
-/**
- * Background task that logs in a user (i.e., starts a session).
- */
 public class LoginTask extends AuthenticationTask {
     private static final String LOG_TAG = "LoginTask";
 
@@ -24,7 +21,7 @@ public class LoginTask extends AuthenticationTask {
     protected Pair<User, AuthToken> runAuthenticationTask() {
         try {
             LoginRequest request = new LoginRequest(username, password);
-            LoginResponse response = getServerFacade().login(request, UserService.URL_PATH);
+            LoginResponse response = getServerFacade().login(request, UserService.LOGIN_URL);
 
             if (response.isSuccess()) {
                 sendSuccessMessage();
