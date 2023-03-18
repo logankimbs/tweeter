@@ -20,6 +20,7 @@ import edu.byu.cs.tweeter.model.domain.User;
 
 public class StatusService {
     public static final String URL_POST_STATUS = "/poststatus";
+    public static final String GET_FEED_URL = "/getfeed";
 
     public void postStatus(String post, SimpleObserver observer) {
         Status newStatus = new Status(post, Cache.getInstance().getCurrUser(), System.currentTimeMillis(), parseURLs(post), parseMentions(post));
