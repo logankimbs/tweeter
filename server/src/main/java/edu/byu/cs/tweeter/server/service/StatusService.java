@@ -4,6 +4,7 @@ import edu.byu.cs.tweeter.model.net.request.GetFeedRequest;
 import edu.byu.cs.tweeter.model.net.request.PostStatusRequest;
 import edu.byu.cs.tweeter.model.net.response.GetFeedResponse;
 import edu.byu.cs.tweeter.model.net.response.PostStatusResponse;
+import edu.byu.cs.tweeter.server.dao.StatusDAO;
 
 public class StatusService {
     public PostStatusResponse postStatus(PostStatusRequest request) {
@@ -53,8 +54,10 @@ public class StatusService {
             throw new RuntimeException("[Bad Request] Missing a lastStatus");
         }
 
-        // TODO: Generates dummy data. Replace with a real implementation.
-        //  THIS IS WRONG!!!
-        return new GetFeedResponse(null, false);
+        return getStatusDAO().getFeed(request);
+    }
+
+    public StatusDAO getStatusDAO() {
+        return new StatusDAO();
     }
 }
