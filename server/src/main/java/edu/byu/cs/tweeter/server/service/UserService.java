@@ -76,12 +76,12 @@ public class UserService {
     }
 
     public GetUserResponse getUser(GetUserRequest request) {
-        if(request.getAlias() == null){
+        if(request.getUserAlias() == null){
             throw new RuntimeException("[Bad Request] Missing a userAlias");
         }
 
         // TODO: Generates dummy data. Replace with a real implementation.
-        User user = getFakeData().findUserByAlias(request.getAlias());
+        User user = getFakeData().findUserByAlias(request.getUserAlias());
         return new GetUserResponse(user);
     }
 }

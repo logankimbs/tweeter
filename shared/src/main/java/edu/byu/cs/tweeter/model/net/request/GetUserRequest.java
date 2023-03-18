@@ -1,15 +1,15 @@
 package edu.byu.cs.tweeter.model.net.request;
 
 public class GetUserRequest {
-    private String alias;
+    private String userAlias;
 
     private GetUserRequest() {}
 
-    public GetUserRequest(String alias) {
-        this.alias = alias;
+    public GetUserRequest(String userAlias) {
+        this.userAlias = userAlias;
     }
 
-    public String getAlias() {
-        return alias;
+    public String getUserAlias() {
+        return userAlias;
     }
 }
