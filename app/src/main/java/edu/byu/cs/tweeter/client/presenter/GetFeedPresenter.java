@@ -31,7 +31,7 @@ public class GetFeedPresenter {
         if (!isLoading) {
             isLoading = true;
             view.setLoadingFooter(true);
-            statusService.loadMoreItems(user, PAGE_SIZE, lastStatus, new GetFeedObserver());
+            statusService.getFeed(user, PAGE_SIZE, lastStatus, new GetFeedObserver());
         }
     }
 

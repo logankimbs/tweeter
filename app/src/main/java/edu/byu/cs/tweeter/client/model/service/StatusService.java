@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import edu.byu.cs.tweeter.client.cache.Cache;
+import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetFeedTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.GetStoryTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.PostStatusTask;
 import edu.byu.cs.tweeter.client.model.service.backgroundTask.handler.PagedHandler;
@@ -33,6 +34,13 @@ public class StatusService {
                 user, pageSize, lastStatus, new PagedHandler<>(Looper.getMainLooper(), observer));
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(getStoryTask);
+    }
+
+    public void getFeed(User user, int pageSize, Status lastStatus, PagedObserver<Status> observer) {
+        GetFeedTask getFeedTask = new GetFeedTask(Cache.getInstance().getCurrUserAuthToken(),
+                user, pageSize, lastStatus, new PagedHandler<>(Looper.getMainLooper(), observer));
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(getFeedTask);
     }
 
     private List<String> parseURLs(String post) {
