@@ -12,4 +12,8 @@ public class GetUserRequest {
     public String getUserAlias() {
         return userAlias;
     }
+
+    public void setUserAlias(String userAlias) {
+        this.userAlias = userAlias;
+    }
 }
