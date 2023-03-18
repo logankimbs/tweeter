@@ -35,11 +35,13 @@ public class ServerFacade {
 
     private final ClientCommunicator clientCommunicator = new ClientCommunicator(SERVER_URL);
 
-    public LoginResponse login(LoginRequest request, String urlPath) throws IOException, TweeterRemoteException {
+    public LoginResponse login(LoginRequest request, String urlPath)
+            throws IOException, TweeterRemoteException {
         return clientCommunicator.doPost(urlPath, request, null, LoginResponse.class);
     }
 
-    public RegisterResponse register(RegisterRequest request, String urlPath) throws IOException, TweeterRemoteException {
+    public RegisterResponse register(RegisterRequest request, String urlPath)
+            throws IOException, TweeterRemoteException {
         return clientCommunicator.doPost(urlPath, request, null, RegisterResponse.class);
     }
 
