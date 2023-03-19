@@ -6,6 +6,7 @@ import java.util.Objects;
 import edu.byu.cs.tweeter.model.domain.Status;
 
 public class GetFeedResponse extends PagedResponse {
+
     private List<Status> feed;
 
     public GetFeedResponse(String message) {

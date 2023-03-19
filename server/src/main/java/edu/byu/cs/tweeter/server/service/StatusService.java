@@ -38,20 +38,12 @@ public class StatusService {
             throw new RuntimeException("[Bad Request] Missing an token");
         } else if (request.getAuthToken().getDatetime() == null) {
             throw new RuntimeException("[Bad Request] Missing an datetime");
-        } else if (request.getUser() == null) {
-            throw new RuntimeException("[Bad Request] Missing a user");
-        } else if (request.getUser().getFirstName() == null) {
-            throw new RuntimeException("[Bad Request] Missing a firstName");
-        } else if (request.getUser().getLastName() == null) {
-            throw new RuntimeException("[Bad Request] Missing a lastName");
-        } else if (request.getUser().getAlias() == null) {
-            throw new RuntimeException("[Bad Request] Missing an alias");
-        } else if (request.getUser().getImageUrl() == null) {
-            throw new RuntimeException("[Bad Request] Missing a imageUrl");
-        } else if (request.getLimit() == 0) {
-            throw new RuntimeException("[Bad Request] Missing a limit");
-        } else if (request.getLastItem() == null) {
-            throw new RuntimeException("[Bad Request] Missing a lastStatus");
+        } else if (request.getUserAlias() == null) {
+            throw new RuntimeException("[Bad Request] Missing a userAlias");
+        } else if (request.getLimit() <= 0) {
+            throw new RuntimeException("[Bad Request] Request needs to have a positive limit");
+        } else if (request.getLastStatusAlias() == null) {
+            throw new RuntimeException("[Bad Request] Missing a lastStatusAlias");
         }
 
         return getStatusDAO().getFeed(request);

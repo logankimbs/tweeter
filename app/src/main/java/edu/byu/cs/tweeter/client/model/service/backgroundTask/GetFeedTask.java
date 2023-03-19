@@ -27,12 +27,12 @@ public class GetFeedTask extends PagedTask<Status> {
 
     @Override
     protected Pair<List<Status>, Boolean> getItems() {
-        // return getFakeData().getPageOfStatus(getLastItem(), getLimit());
+//        return getFakeData().getPageOfStatus(getLastItem(), getLimit());
         try {
             String targetUserAlias = targetUser == null ? null : targetUser.getAlias();
             String lastStatusAlias = lastItem == null ? null : lastItem.getUser().getAlias();
 
-            GetFeedRequest request = new GetFeedRequest(authToken, targetUser, limit, lastItem);
+            GetFeedRequest request = new GetFeedRequest(authToken, targetUserAlias, limit, lastStatusAlias);
             GetFeedResponse response = getServerFacade().getFeed(request, StatusService.GET_FEED_URL);
 
             if (response.isSuccess()) {
@@ -40,6 +40,7 @@ public class GetFeedTask extends PagedTask<Status> {
                 this.hasMorePages = response.getHasMorePages();
                 sendSuccessMessage();
             } else {
+                System.out.println("GetFeedTask: " + response.getMessage());
                 sendFailedMessage(response.getMessage());
             }
 
