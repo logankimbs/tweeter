@@ -32,6 +32,8 @@ public class FollowService {
     public static final String UNFOLLOW_URL = "/unfollow";
     public static final String IS_FOLLOWER_URL = "/isfollower";
 
+    public interface GetFollowingObserver extends PagedObserver<User> {}
+
     public void getFollowing(User user, int pageSize, User lastFollowee, PagedObserver<User> observer) {
         GetFollowingTask getFollowingTask = new GetFollowingTask(Cache.getInstance().getCurrUserAuthToken(),
                 user, pageSize, lastFollowee, new PagedHandler<>(Looper.getMainLooper(), observer));
