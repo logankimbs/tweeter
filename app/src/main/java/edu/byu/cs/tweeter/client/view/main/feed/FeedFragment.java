@@ -103,7 +103,7 @@ public class FeedFragment extends Fragment implements GetFeedPresenter.View {
 
     @Override
     public void displayMessage(String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+        // Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 
     @Override
